@@ -4,7 +4,8 @@ import axios from 'axios'
 // User型の定義
 type User = {
   id: number;
-  nickname: string;
+  firstname: string;
+  lastname: string;
 };
 
 const UserData = () => {
@@ -25,7 +26,10 @@ const UserData = () => {
     <>
       <div>ユーザーデータだよ。</div>
       {users && users.map((user) => (
-        <div key={user.id}>{user.nickname}</div>
+        <div key={user.id}>
+          <div>{user.firstname}</div>
+          <div>{user.lastname}</div>
+        </div>
       ))}
     </>
   )
