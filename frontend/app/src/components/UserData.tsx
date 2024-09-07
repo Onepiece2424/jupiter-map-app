@@ -1,21 +1,33 @@
-import React, { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
 
+// User型の定義
+type User = {
+  id: number;
+  nickname: string;
+};
+
 const UserData = () => {
+  const [users, setUsers] = useState<User[]>([]);
+
   useEffect(() => {
-    axios.get('https://jsonplaceholder.typicode.com/users')
-    .then(response => {
-      console.log(response);
-    })
-    .catch(error => {
-      console.error('リクエストエラー:', error);
-    });
-  }, [])
+    axios.get<User[]>('http://localhost:3000/users')
+      .then(response => {
+        console.log(response.data);
+        setUsers(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
 
   return (
-    <div>
-      ユーザーデータだよ。
-    </div>
+    <>
+      <div>ユーザーデータだよ。</div>
+      {users && users.map((user) => (
+        <div key={user.id}>{user.nickname}</div>
+      ))}
+    </>
   )
 }
 
