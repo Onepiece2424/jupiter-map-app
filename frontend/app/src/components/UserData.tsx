@@ -27,8 +27,7 @@ const UserData = () => {
       <div>ユーザーデータだよ。</div>
       {users && users.map((user) => (
         <div key={user.id}>
-          <div>{user.firstname}</div>
-          <div>{user.lastname}</div>
+          <p>{user.firstname} {user.lastname}</p>
         </div>
       ))}
     </>
