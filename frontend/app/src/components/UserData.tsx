@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import { useForm, SubmitHandler } from 'react-hook-form';
 
 // User型の定義
 type User = {
@@ -7,6 +8,13 @@ type User = {
   firstname: string;
   lastname: string;
 };
+
+// フォームデータの型定義
+interface FormData {
+  placeName: string;
+  password: string;
+}
+
 
 const UserData = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -22,6 +30,13 @@ const UserData = () => {
       });
   }, []);
 
+  const { register, handleSubmit } = useForm<FormData>();
+
+  // onSubmitの型定義
+  const onSubmit: SubmitHandler<FormData> = (data) => {
+    console.log(data);
+  };
+
   return (
     <>
       <div>ユーザーデータだよ。</div>
@@ -30,6 +45,13 @@ const UserData = () => {
           <p>{user.firstname} {user.lastname}</p>
         </div>
       ))}
+      <div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <label htmlFor="placeName">地名を入力</label>
+          <input id="placeName" {...register('placeName')} />
+          <button type="submit">検索</button>
+        </form>
+      </div>
     </>
   )
 }
