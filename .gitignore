@@ -1,0 +1,16 @@
+# Rails
+/backend/log/*
+/backend/tmp/*
+/backend/vendor/bundle
+/backend/.byebug_history
+/backend/node_modules
+/backend/public/packs
+
+# React
+/frontend/node_modules
+/frontend/build
+
+# General
+.DS_Store
+
+/tmp/*
