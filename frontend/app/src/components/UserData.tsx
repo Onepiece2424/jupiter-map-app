@@ -19,7 +19,9 @@ interface FormData {
 
 const UserData = () => {
   const [users, setUsers] = useState<User[]>([]);
-
+  const [lat, setLat] = useState<number | null>(null); // 緯度の状態
+  const [lng, setLng] = useState<number | null>(null); // 経度の状態
+console.log(lat, lng);
   useEffect(() => {
     axios.get<User[]>('http://localhost:3000/users')
       .then(response => {
@@ -34,8 +36,19 @@ const UserData = () => {
   const { register, handleSubmit } = useForm<FormData>();
 
   // onSubmitの型定義
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    try {
+      // Rails APIに地名を送信
+      const response = await axios.get(`http://localhost:3000/search_location`, {
+        params: { place_name: data.placeName } // パラメータとして地名を渡す
+      });
+
+      const { lat, lng } = response.data; // 緯度と経度を取得
+      setLat(lat); // 緯度を更新
+      setLng(lng); // 経度を更新
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
