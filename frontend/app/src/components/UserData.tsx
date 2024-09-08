@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useForm, SubmitHandler } from 'react-hook-form';
+import GoogleMaps from './GoogleMaps';
 
 // User型の定義
 type User = {
@@ -51,6 +52,7 @@ const UserData = () => {
           <input id="placeName" {...register('placeName')} />
           <button type="submit">検索</button>
         </form>
+        <GoogleMaps />
       </div>
     </>
   )
