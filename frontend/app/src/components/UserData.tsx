@@ -18,8 +18,8 @@ interface FormData {
 
 const UserData = () => {
   const [users, setUsers] = useState<User[]>([]);
-  const [lat, setLat] = useState<number | null>(35.801757);
-  const [lng, setLng] = useState<number | null>(139.714783);
+  const [lat, setLat] = useState<number | null>(35.7140371);
+  const [lng, setLng] = useState<number | null>(139.7925173);
 
   useEffect(() => {
     axios.get<User[]>('http://localhost:3000/users')
