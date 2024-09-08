@@ -15,3 +15,7 @@ code {
 #placeName {
   margin: 0 10px;
 }
+
+.main-container {
+  margin: 20px auto;
+}
