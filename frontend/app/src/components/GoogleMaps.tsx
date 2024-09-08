@@ -1,15 +1,20 @@
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import Maps from './Maps';
 
-const GoogleMaps = () => {
+type GoogleMapsProps = {
+  lat: number;
+  lng: number;
+};
+
+const GoogleMaps = ({ lat, lng }: GoogleMapsProps) => {
   const render = (status: Status) => {
     return <h1>{status}</h1>;
   };
 
   const apiKey = process.env.REACT_APP_GOOGLE_MAP_API_KEY as string;
   const position = {
-    lat: 43.035718552968376,
-    lng: 141.46244422700855
+    lat: lat,
+    lng: lng
   } as google.maps.LatLngLiteral;
 
   return (

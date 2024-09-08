@@ -16,16 +16,14 @@ interface FormData {
   password: string;
 }
 
-
 const UserData = () => {
   const [users, setUsers] = useState<User[]>([]);
-  const [lat, setLat] = useState<number | null>(null); // 緯度の状態
-  const [lng, setLng] = useState<number | null>(null); // 経度の状態
-console.log(lat, lng);
+  const [lat, setLat] = useState<number | null>(35.801757);
+  const [lng, setLng] = useState<number | null>(139.714783);
+
   useEffect(() => {
     axios.get<User[]>('http://localhost:3000/users')
       .then(response => {
-        console.log(response.data);
         setUsers(response.data);
       })
       .catch(error => {
@@ -53,19 +51,19 @@ console.log(lat, lng);
 
   return (
     <>
-      <div>ユーザーデータだよ。</div>
+      {/* <div>ユーザーデータだよ。</div>
       {users && users.map((user) => (
         <div key={user.id}>
           <p>{user.firstname} {user.lastname}</p>
         </div>
-      ))}
-      <div>
+      ))} */}
+      <div className='main-container'>
         <form onSubmit={handleSubmit(onSubmit)}>
           <label htmlFor="placeName">地名を入力</label>
           <input id="placeName" {...register('placeName')} />
           <button type="submit">検索</button>
         </form>
-        <GoogleMaps />
+        {lat !== null && lng !== null && <GoogleMaps lat={lat} lng={lng} />}
       </div>
     </>
   )
