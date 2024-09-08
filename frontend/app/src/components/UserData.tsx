@@ -17,7 +17,7 @@ const UserData = () => {
         setUsers(response.data);
       })
       .catch(error => {
-        console.error(error);
+        alert(error);
       });
   }, []);
 
