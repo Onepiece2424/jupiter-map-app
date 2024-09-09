@@ -43,7 +43,7 @@ const GoogleMaps = () => {
       setLat(lat); // 緯度を更新
       setLng(lng); // 経度を更新
     } catch (error) {
-      console.error(error);
+      alert(error);
     }
   };
 
