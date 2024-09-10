@@ -3,7 +3,11 @@ import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import axios from 'axios';
 import Maps from './Maps';
-import Marker from './Marker';
+
+type GoogleMapsProps = {
+  lat: number;
+  lng: number;
+};
 
 // フォームデータの型定義
 interface FormData {
@@ -20,8 +24,7 @@ const GoogleMaps = () => {
   };
 
   const apiKey = process.env.REACT_APP_GOOGLE_MAP_API_KEY as string;
-
-  const position = {
+  const position: GoogleMapsProps = {
     lat: lat as number, // latがnullでないことを保証
     lng: lng as number  // lngがnullでないことを保証
   };
@@ -52,11 +55,7 @@ const GoogleMaps = () => {
           <input id="placeName" {...register('placeName')} />
           <button type="submit">検索</button>
         </form>
-        {lat !== null && lng !== null &&
-        <Maps style={{ maxWidth: '800px', aspectRatio: '16 / 9', margin: '10px auto' }} center={position}>
-          <Marker position={position} />
-        </Maps>
-        }
+        {lat !== null && lng !== null && <Maps style={{ maxWidth: '800px', aspectRatio: '16 / 9', margin: '10px auto' }} center={position} />}
       </div>
     </Wrapper>
   )
