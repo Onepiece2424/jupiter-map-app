@@ -20,6 +20,7 @@ const GoogleMaps = () => {
   };
 
   const apiKey = process.env.REACT_APP_GOOGLE_MAP_API_KEY as string;
+
   const position = {
     lat: lat as number, // latがnullでないことを保証
     lng: lng as number  // lngがnullでないことを保証
