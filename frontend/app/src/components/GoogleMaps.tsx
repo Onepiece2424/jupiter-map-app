@@ -5,11 +5,6 @@ import axios from 'axios';
 import Maps from './Maps';
 import Marker from './Marker';
 
-type GoogleMapsProps = {
-  lat: number;
-  lng: number;
-};
-
 // フォームデータの型定義
 interface FormData {
   placeName: string;
@@ -25,7 +20,7 @@ const GoogleMaps = () => {
   };
 
   const apiKey = process.env.REACT_APP_GOOGLE_MAP_API_KEY as string;
-  const position: GoogleMapsProps = {
+  const position = {
     lat: lat as number, // latがnullでないことを保証
     lng: lng as number  // lngがnullでないことを保証
   };
