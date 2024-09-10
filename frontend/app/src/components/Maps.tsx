@@ -16,13 +16,9 @@ const Maps = ({ children, className, style, ...options }: MapProps) => {
 
   useEffect(() => {
     if (ref.current && !map) {
-      const option = {
-        center: options.center,
-        zoom: 16
-      };
-      setMap(new window.google.maps.Map(ref.current, option));
+      setMap(new window.google.maps.Map(ref.current, options));
     }
-  }, [ref, map, options.center]);
+  }, [ref, map, options]);
 
   useEffect(() => {
     if (map && options.center) {
