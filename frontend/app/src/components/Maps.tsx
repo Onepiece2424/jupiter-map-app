@@ -1,13 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 
 type MapProps = google.maps.MapOptions & {
-  className?: string;
-  style?: React.CSSProperties;
+  className?: string; // className を追加
+  style?: React.CSSProperties; // style を追加
   children?: React.ReactNode;
-};
-
-type ChildProps = {
-  map?: google.maps.Map;
 };
 
 const Maps = ({ children, className, style, ...options }: MapProps) => {
@@ -16,9 +12,13 @@ const Maps = ({ children, className, style, ...options }: MapProps) => {
 
   useEffect(() => {
     if (ref.current && !map) {
-      setMap(new window.google.maps.Map(ref.current, options));
+      const option = {
+        center: options.center,
+        zoom: 16
+      };
+      setMap(new window.google.maps.Map(ref.current, option));
     }
-  }, [ref, map, options]);
+  }, [ref, map, options.center]);
 
   useEffect(() => {
     if (map && options.center) {
@@ -27,14 +27,7 @@ const Maps = ({ children, className, style, ...options }: MapProps) => {
   }, [map, options.center]);
 
   return (
-    <div ref={ref} className={className} style={style}>
-      {map && React.Children.map(children, (child) => {
-        if (React.isValidElement<ChildProps>(child)) {
-          return React.cloneElement(child, { map });
-        }
-        return null;
-      })}
-    </div>
+    <div ref={ref} className={className} style={style} />
   );
 };
 
