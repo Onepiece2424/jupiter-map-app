@@ -1,23 +1,26 @@
 import { useState, useEffect } from "react";
 
-const Marker: React.FC<google.maps.MarkerOptions> = (options) => {
+const Marker: React.FC<google.maps.MarkerOptions & { map?: google.maps.Map }> = (options) => {
   const [marker, setMarker] = useState<google.maps.Marker>();
 
   useEffect(() => {
-    if (!marker) {
-      setMarker(new google.maps.Marker());
+    if (!marker && options.map) {
+      const newMarker = new google.maps.Marker({
+        ...options
+      });
+      setMarker(newMarker);
     }
 
-    // remove marker from map on unmount
     return () => {
       if (marker) {
         marker.setMap(null);
       }
     };
-  }, [marker]);
+  }, [marker, options]);
 
   useEffect(() => {
-    if (marker) {
+    if (marker && options.map) {
+      marker.setMap(options.map);
       marker.setOptions(options);
     }
   }, [marker, options]);

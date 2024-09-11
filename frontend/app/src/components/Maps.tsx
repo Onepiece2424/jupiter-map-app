@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, ReactElement } from "react";
 
 type MapProps = google.maps.MapOptions & {
   className?: string; // className を追加
@@ -6,19 +6,19 @@ type MapProps = google.maps.MapOptions & {
   children?: React.ReactNode;
 };
 
-const Maps = ({ children, className, style, ...options }: MapProps) => {
+const Maps: React.FC<MapProps> = ({ children, className, style, ...options }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<google.maps.Map>();
 
   useEffect(() => {
     if (ref.current && !map) {
-      const option = {
+      const mapInstance = new window.google.maps.Map(ref.current, {
         center: options.center,
-        zoom: 16
-      };
-      setMap(new window.google.maps.Map(ref.current, option));
+        zoom: options.zoom || 16,
+      });
+      setMap(mapInstance);
     }
-  }, [ref, map, options.center]);
+  }, [ref, map, options.center, options.zoom]);
 
   useEffect(() => {
     if (map && options.center) {
@@ -27,7 +27,16 @@ const Maps = ({ children, className, style, ...options }: MapProps) => {
   }, [map, options.center]);
 
   return (
-    <div ref={ref} className={className} style={style} />
+    <div ref={ref} className={className} style={style}>
+      {/* React.Children.mapの型を拡張して正しくプロパティを渡す */}
+      {React.Children.map(children, (child) => {
+        if (React.isValidElement(child)) {
+          // 子要素がReactElementであることを保証し、mapを追加
+          return React.cloneElement(child as ReactElement<any>, { map });
+        }
+        return child;
+      })}
+    </div>
   );
 };
 
