@@ -6,7 +6,7 @@ type MapProps = google.maps.MapOptions & {
   children?: React.ReactNode;
 };
 
-const Maps: React.FC<MapProps> = ({ children, className, style, ...options }) => {
+const Maps = ({ children, className, style, ...options }: MapProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<google.maps.Map>();
 
