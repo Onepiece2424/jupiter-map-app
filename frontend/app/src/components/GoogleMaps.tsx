@@ -17,17 +17,18 @@ interface FormData {
 }
 
 const GoogleMaps = () => {
-  const [lat, setLat] = useState<number | null>(35.7140371);
-  const [lng, setLng] = useState<number | null>(139.7925173);
+  const [lat, setLat] = useState<number>(35.7140371);
+  const [lng, setLng] = useState<number>(139.7925173);
 
   const render = (status: Status) => {
     return <h1>{status}</h1>;
   };
 
   const apiKey = process.env.REACT_APP_GOOGLE_MAP_API_KEY as string;
+
   const position: GoogleMapsProps = {
-    lat: lat as number, // latがnullでないことを保証
-    lng: lng as number  // lngがnullでないことを保証
+    lat: lat as number,
+    lng: lng as number
   };
 
   const { register, handleSubmit } = useForm<FormData>();
