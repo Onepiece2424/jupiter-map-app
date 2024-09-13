@@ -19,7 +19,6 @@ interface FormData {
 const GoogleMaps = () => {
   const [lat, setLat] = useState<number>(35.7140371);
   const [lng, setLng] = useState<number>(139.7925173);
-  const [markers, setMarkers] = useState<GoogleMapsProps[]>([]);
 
   const render = (status: Status) => {
     return <h1>{status}</h1>;
@@ -43,20 +42,15 @@ const GoogleMaps = () => {
       const { lat, lng } = response.data;
       setLat(lat);
       setLng(lng);
-
-      setMarkers(prevMarkers => [...prevMarkers, { lat, lng }]);
     } catch (error) {
       alert(error);
     }
   };
 
-  const handleMapClick = (e: google.maps.MapMouseEvent) => {
+  const handleMarkerDragEnd = (e: google.maps.MapMouseEvent) => {
     if (e.latLng) {
-      const newMarker = {
-        lat: e.latLng.lat(),
-        lng: e.latLng.lng(),
-      };
-      setMarkers(prevMarkers => [...prevMarkers, newMarker]);
+      setLat(e.latLng.lat());
+      setLng(e.latLng.lng());
     }
   };
 
@@ -71,16 +65,17 @@ const GoogleMaps = () => {
         <Maps
           style={{ maxWidth: '800px', aspectRatio: '16 / 9', margin: '10px auto' }}
           center={position}
-          onClick={handleMapClick}
         >
-          <Marker position={position} icon="http://maps.google.com/mapfiles/ms/icons/blue-dot.png" />
-          {markers.map((marker, index) => (
-            <Marker key={index} position={marker} icon="http://maps.google.com/mapfiles/ms/icons/red-dot.png" />
-          ))}
+          <Marker
+            position={position}
+            icon="http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+            draggable={true}
+            onDragEnd={handleMarkerDragEnd}
+          />
         </Maps>
       </div>
     </Wrapper>
-  )
+  );
 }
 
 export default GoogleMaps;

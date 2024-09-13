@@ -1,14 +1,20 @@
 import { useState, useEffect } from "react";
 
-const Marker = (options: google.maps.MarkerOptions & { map?: google.maps.Map, icon?: string }) => {
+const Marker = (options: google.maps.MarkerOptions & { map?: google.maps.Map, icon?: string, draggable?: boolean, onDragEnd?: (e: google.maps.MapMouseEvent) => void }) => {
   const [marker, setMarker] = useState<google.maps.Marker>();
 
   useEffect(() => {
     if (!marker && options.map) {
       const newMarker = new google.maps.Marker({
         ...options,
-        icon: options.icon // アイコンを設定
+        icon: options.icon,
+        draggable: options.draggable,
       });
+
+      if (options.onDragEnd) {
+        newMarker.addListener("dragend", options.onDragEnd);
+      }
+
       setMarker(newMarker);
     }
 
