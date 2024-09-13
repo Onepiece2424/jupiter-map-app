@@ -68,7 +68,6 @@ const GoogleMaps = () => {
         >
           <Marker
             position={position}
-            icon="http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
             draggable={true}
             onDragEnd={handleMarkerDragEnd}
           />
