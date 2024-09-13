@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import ReactDOMServer from "react-dom/server";
+import InfoWindow from "./InfoWindow";
 
 const Marker = (options: google.maps.MarkerOptions & { map?: google.maps.Map, draggable?: boolean, onDragEnd?: (e: google.maps.MapMouseEvent) => void }) => {
   const [marker, setMarker] = useState<google.maps.Marker>();
@@ -13,6 +15,16 @@ const Marker = (options: google.maps.MarkerOptions & { map?: google.maps.Map, dr
       if (options.onDragEnd) {
         newMarker.addListener("dragend", options.onDragEnd);
       }
+
+      // 情報ウィンドウを作成 (JSXをHTML文字列に変換)
+      const infoWindow = new google.maps.InfoWindow({
+        content: ReactDOMServer.renderToString(<InfoWindow />),
+      });
+
+      // マーカーのクリックイベントで情報ウィンドウを表示
+      newMarker.addListener("click", () => {
+        infoWindow.open(options.map, newMarker);
+      });
 
       setMarker(newMarker);
     }
