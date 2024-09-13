@@ -1,13 +1,18 @@
-import React from 'react'
+import React from "react";
 
-const InfoWindow = () => {
-  return (
-    <>
-      <p>ここは情報ウィンドウです</p>
-      <button>はい</button>
-      <button>いいえ</button>
-    </>
-  )
+interface InfoWindowProps {
+  title: string;
+  position: google.maps.LatLngLiteral;
 }
 
-export default InfoWindow
+const InfoWindow: React.FC<InfoWindowProps> = ({ title, position }) => {
+  return (
+    <div>
+      <h4>{title}</h4>
+      <p>緯度: {position.lat}</p>
+      <p>経度: {position.lng}</p>
+    </div>
+  );
+};
+
+export default InfoWindow;

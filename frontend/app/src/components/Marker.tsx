@@ -1,8 +1,13 @@
 import { useState, useEffect } from "react";
-import ReactDOMServer from "react-dom/server";
+import ReactDOM from "react-dom";
 import InfoWindow from "./InfoWindow";
 
-const Marker = (options: google.maps.MarkerOptions & { map?: google.maps.Map, draggable?: boolean, onDragEnd?: (e: google.maps.MapMouseEvent) => void }) => {
+const Marker = (options: google.maps.MarkerOptions & {
+  map?: google.maps.Map,
+  draggable?: boolean,
+  onDragEnd?: (e: google.maps.MapMouseEvent) => void,
+  title?: string,  // 場所の名前などの情報
+}) => {
   const [marker, setMarker] = useState<google.maps.Marker>();
 
   useEffect(() => {
@@ -16,9 +21,23 @@ const Marker = (options: google.maps.MarkerOptions & { map?: google.maps.Map, dr
         newMarker.addListener("dragend", options.onDragEnd);
       }
 
-      // 情報ウィンドウを作成 (JSXをHTML文字列に変換)
+      // マーカーの位置情報を取得
+      const position = {
+        lat: newMarker.getPosition()?.lat() || 0,
+        lng: newMarker.getPosition()?.lng() || 0,
+      };
+
+      // 情報ウィンドウのDOMノードを作成
+      const infoWindowDiv = document.createElement("div");
+
+      // JSXをDOMノードに変換して情報ウィンドウに渡す
+      ReactDOM.render(
+        <InfoWindow title={options.title || "場所の情報"} position={position} />,
+        infoWindowDiv
+      );
+
       const infoWindow = new google.maps.InfoWindow({
-        content: ReactDOMServer.renderToString(<InfoWindow />),
+        content: infoWindowDiv,
       });
 
       // マーカーのクリックイベントで情報ウィンドウを表示
