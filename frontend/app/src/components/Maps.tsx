@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect, ReactElement } from "react";
 
 type MapProps = google.maps.MapOptions & {
-  className?: string; // className を追加
-  style?: React.CSSProperties; // style を追加
+  className?: string;
+  style?: React.CSSProperties;
   children?: React.ReactNode;
+  onClick?: (e: google.maps.MapMouseEvent) => void; // クリックイベントを追加
 };
 
-const Maps = ({ children, className, style, ...options }: MapProps) => {
+const Maps = ({ children, className, style, onClick, ...options }: MapProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<google.maps.Map>();
 
@@ -16,9 +17,14 @@ const Maps = ({ children, className, style, ...options }: MapProps) => {
         center: options.center,
         zoom: options.zoom || 16,
       });
+
+      if (onClick) {
+        mapInstance.addListener("click", onClick); // クリックイベントをマップに追加
+      }
+
       setMap(mapInstance);
     }
-  }, [ref, map, options.center, options.zoom]);
+  }, [ref, map, options.center, options.zoom, onClick]);
 
   useEffect(() => {
     if (map && options.center) {
@@ -28,10 +34,8 @@ const Maps = ({ children, className, style, ...options }: MapProps) => {
 
   return (
     <div ref={ref} className={className} style={style}>
-      {/* React.Children.mapの型を拡張して正しくプロパティを渡す */}
       {React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
-          // 子要素がReactElementであることを保証し、mapを追加
           return React.cloneElement(child as ReactElement<any>, { map });
         }
         return child;

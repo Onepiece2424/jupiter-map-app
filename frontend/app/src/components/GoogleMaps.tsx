@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import axios from 'axios';
@@ -19,6 +19,7 @@ interface FormData {
 const GoogleMaps = () => {
   const [lat, setLat] = useState<number>(35.7140371);
   const [lng, setLng] = useState<number>(139.7925173);
+  const [markers, setMarkers] = useState<GoogleMapsProps[]>([]);
 
   const render = (status: Status) => {
     return <h1>{status}</h1>;
@@ -33,19 +34,29 @@ const GoogleMaps = () => {
 
   const { register, handleSubmit } = useForm<FormData>();
 
-  // onSubmitの型定義
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      // Rails APIに地名を送信
       const response = await axios.get(`http://localhost:3000/search_location`, {
-        params: { place_name: data.placeName } // パラメータとして地名を渡す
+        params: { place_name: data.placeName }
       });
 
-      const { lat, lng } = response.data; // 緯度と経度を取得
-      setLat(lat); // 緯度を更新
-      setLng(lng); // 経度を更新
+      const { lat, lng } = response.data;
+      setLat(lat);
+      setLng(lng);
+
+      setMarkers(prevMarkers => [...prevMarkers, { lat, lng }]);
     } catch (error) {
       alert(error);
+    }
+  };
+
+  const handleMapClick = (e: google.maps.MapMouseEvent) => {
+    if (e.latLng) {
+      const newMarker = {
+        lat: e.latLng.lat(),
+        lng: e.latLng.lng(),
+      };
+      setMarkers(prevMarkers => [...prevMarkers, newMarker]);
     }
   };
 
@@ -57,12 +68,19 @@ const GoogleMaps = () => {
           <input id="placeName" {...register('placeName')} />
           <button type="submit">検索</button>
         </form>
-        <Maps style={{ maxWidth: '800px', aspectRatio: '16 / 9', margin: '10px auto' }} center={position}>
-          <Marker position={position}/>
+        <Maps
+          style={{ maxWidth: '800px', aspectRatio: '16 / 9', margin: '10px auto' }}
+          center={position}
+          onClick={handleMapClick}
+        >
+          <Marker position={position} icon="http://maps.google.com/mapfiles/ms/icons/blue-dot.png" />
+          {markers.map((marker, index) => (
+            <Marker key={index} position={marker} icon="http://maps.google.com/mapfiles/ms/icons/red-dot.png" />
+          ))}
         </Maps>
       </div>
     </Wrapper>
   )
 }
 
-export default GoogleMaps
+export default GoogleMaps;

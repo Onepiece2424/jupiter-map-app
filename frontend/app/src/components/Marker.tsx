@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 
-const Marker = (options: google.maps.MarkerOptions & { map?: google.maps.Map }) => {
+const Marker = (options: google.maps.MarkerOptions & { map?: google.maps.Map, icon?: string }) => {
   const [marker, setMarker] = useState<google.maps.Marker>();
 
   useEffect(() => {
     if (!marker && options.map) {
       const newMarker = new google.maps.Marker({
-        ...options
+        ...options,
+        icon: options.icon // アイコンを設定
       });
       setMarker(newMarker);
     }
