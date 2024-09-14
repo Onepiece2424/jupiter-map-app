@@ -2,9 +2,12 @@ import React from "react";
 
 interface InfoWindowProps {
   position: google.maps.LatLngLiteral;
+  address: string;
 }
 
-const InfoWindow: React.FC<InfoWindowProps> = ({ position }) => {
+const InfoWindow: React.FC<InfoWindowProps> = ({ position, address }) => {
+  console.log(address);
+
 
   return (
     <div>

@@ -11,25 +11,30 @@ const Marker = (options: google.maps.MarkerOptions & {
   const [marker, setMarker] = useState<google.maps.Marker>();
   const [infoWindow, setInfoWindow] = useState<google.maps.InfoWindow>();
   const [position, setPosition] = useState<{ lat: number; lng: number }>(() => {
-  const pos = options.position;
-  if (pos instanceof google.maps.LatLng) {
-    // google.maps.LatLngオブジェクトの場合
-    return {
-      lat: pos.lat(),
-      lng: pos.lng(),
-    };
-  } else if (pos) {
-    // LatLngLiteralの場合
-    return {
-      lat: pos.lat,
-      lng: pos.lng,
-    };
-  }
-  // 位置情報がない場合はデフォルトの値
-  return { lat: 0, lng: 0 };
-});
+    const pos = options.position;
+    if (pos instanceof google.maps.LatLng) {
+      return {
+        lat: pos.lat(),
+        lng: pos.lng(),
+      };
+    } else if (pos) {
+      return {
+        lat: pos.lat,
+        lng: pos.lng,
+      };
+    }
+    return { lat: 0, lng: 0 };
+  });
 
-
+  const fetchAddress = async (lat: number, lng: number) => {
+    try {
+      const response = await axios.get(`http://localhost:3000/reverse_geocode?lat=${lat}&lng=${lng}`);
+      return response.data.address;
+    } catch (error) {
+      console.error("Error fetching location data:", error);
+      return "住所データの取得に失敗しました";
+    }
+  };
 
   useEffect(() => {
     if (!marker && options.map) {
@@ -38,45 +43,34 @@ const Marker = (options: google.maps.MarkerOptions & {
         draggable: options.draggable,
       });
 
-      // ドラッグ終了時のイベントリスナーを設定
-      newMarker.addListener("dragend", (e: google.maps.MapMouseEvent) => {
+      newMarker.addListener("dragend", async (e: google.maps.MapMouseEvent) => {
         const newPosition = {
           lat: e.latLng?.lat() || 0,
           lng: e.latLng?.lng() || 0,
         };
-
-        // 位置情報を更新
         setPosition(newPosition);
 
-        // Rails APIを呼び出して新しい場所名を取得し、情報ウィンドウを更新
-        axios
-          .get(`http://localhost:3000/reverse_geocode?lat=${newPosition.lat}&lng=${newPosition.lng}`)
-          .then((response) => {
-            console.log(response.data.address);
+        const address = await fetchAddress(newPosition.lat, newPosition.lng);
 
-            // InfoWindowのDOMノードを更新
-            if (infoWindow) {
-              const infoWindowDiv = document.createElement("div");
-              ReactDOM.render(<InfoWindow position={newPosition} />, infoWindowDiv);
-              infoWindow.setContent(infoWindowDiv);
-
-              // 新しい場所で情報ウィンドウを開く
-              infoWindow.open(options.map, newMarker);
-            }
-          })
-          .catch((error) => {
-            alert(error.response.data.error)
-            console.error("Error fetching location data:", error);
-          });
+        if (infoWindow) {
+          const infoWindowDiv = document.createElement("div");
+          ReactDOM.render(<InfoWindow position={newPosition} address={address} />, infoWindowDiv);
+          infoWindow.setContent(infoWindowDiv);
+          infoWindow.open(options.map, newMarker);
+        }
       });
 
-      // マーカーのクリックイベントで情報ウィンドウを表示
-      newMarker.addListener("click", () => {
+      newMarker.addListener("click", async () => {
+        const address = await fetchAddress(position.lat, position.lng);
+
         if (infoWindow) {
+          const infoWindowDiv = document.createElement("div");
+          ReactDOM.render(<InfoWindow position={position} address={address} />, infoWindowDiv);
+          infoWindow.setContent(infoWindowDiv);
           infoWindow.open(options.map, newMarker);
         } else {
           const infoWindowDiv = document.createElement("div");
-          ReactDOM.render(<InfoWindow position={position} />, infoWindowDiv);
+          ReactDOM.render(<InfoWindow position={position} address={address} />, infoWindowDiv);
           const newInfoWindow = new google.maps.InfoWindow({
             content: infoWindowDiv,
           });
