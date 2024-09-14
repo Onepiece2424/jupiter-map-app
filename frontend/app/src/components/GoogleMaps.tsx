@@ -1,20 +1,13 @@
 import { useState } from 'react';
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
-import { useForm, SubmitHandler } from 'react-hook-form';
-import axios from 'axios';
 import Maps from './Maps';
 import Marker from './Marker';
+import LocationSearchForm from './LocationSearchForm';
 
 type GoogleMapsProps = {
   lat: number;
   lng: number;
 };
-
-// フォームデータの型定義
-interface FormData {
-  placeName: string;
-  password: string;
-}
 
 const GoogleMaps = () => {
   const [lat, setLat] = useState<number>(35.7140371);
@@ -31,22 +24,6 @@ const GoogleMaps = () => {
     lng: lng as number
   };
 
-  const { register, handleSubmit } = useForm<FormData>();
-
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
-    try {
-      const response = await axios.get(`http://localhost:3000/search_location`, {
-        params: { place_name: data.placeName }
-      });
-
-      const { lat, lng } = response.data;
-      setLat(lat);
-      setLng(lng);
-    } catch (error) {
-      alert(error);
-    }
-  };
-
   const handleMarkerDragEnd = (e: google.maps.MapMouseEvent) => {
     if (e.latLng) {
       setLat(e.latLng.lat());
@@ -57,11 +34,7 @@ const GoogleMaps = () => {
   return (
     <Wrapper apiKey={apiKey} render={render}>
       <div className='main-container'>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <label htmlFor="placeName">地名を入力</label>
-          <input id="placeName" {...register('placeName')} />
-          <button type="submit">検索</button>
-        </form>
+        <LocationSearchForm setLat={setLat} setLng={setLng} />
         <Maps
           style={{ maxWidth: '800px', aspectRatio: '16 / 9', margin: '10px auto' }}
           center={position}
