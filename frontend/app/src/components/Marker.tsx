@@ -8,8 +8,10 @@ const Marker = (options: google.maps.MarkerOptions & {
   draggable?: boolean,
   onDragEnd?: (e: google.maps.MapMouseEvent) => void,
 }) => {
+
   const [marker, setMarker] = useState<google.maps.Marker>();
   const [infoWindow, setInfoWindow] = useState<google.maps.InfoWindow>();
+
   const [position, setPosition] = useState<{ lat: number; lng: number }>(() => {
     const pos = options.position;
     if (pos instanceof google.maps.LatLng) {
