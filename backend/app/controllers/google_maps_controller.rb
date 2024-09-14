@@ -8,4 +8,13 @@ class GoogleMapsController < ApplicationController
       render json: { error: '位置が見つかりませんでした' }, status: :not_found
     end
   end
+
+  def reverse_geocode
+    results = Geocoder.search([params[:lat], params[:lng]]).first
+    if results
+      render json: { address: results.data["address"] }
+    else
+      render json: { error: '位置が見つかりませんでした' }, status: :not_found
+    end
+  end
 end

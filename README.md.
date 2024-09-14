@@ -1,7 +1,18 @@
+### アプリの特徴
+
+
+
+### 使用技術
+
+ruby 3.1.3
+
+rails 7.0.8
+
+typscript 4.9.5
+
+
 ### メモ
 
 参考にした記事
 
 https://zenn.dev/dsakai07/articles/84ceb379cffbcb
-
-
