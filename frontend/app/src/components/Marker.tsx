@@ -32,7 +32,7 @@ const Marker = (options: google.maps.MarkerOptions & {
       return response.data.address;
     } catch (error) {
       console.error("Error fetching location data:", error);
-      return "住所データの取得に失敗しました";
+      alert("住所データの取得に失敗しました")
     }
   };
 
