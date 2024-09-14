@@ -57,6 +57,14 @@ const Marker = (options: google.maps.MarkerOptions & {
           ReactDOM.render(<InfoWindow position={newPosition} address={address} />, infoWindowDiv);
           infoWindow.setContent(infoWindowDiv);
           infoWindow.open(options.map, newMarker);
+        } else {
+          const infoWindowDiv = document.createElement("div");
+          ReactDOM.render(<InfoWindow position={newPosition} address={address} />, infoWindowDiv);
+          const newInfoWindow = new google.maps.InfoWindow({
+            content: infoWindowDiv,
+          });
+          newInfoWindow.open(options.map, newMarker);
+          setInfoWindow(newInfoWindow);
         }
       });
 
