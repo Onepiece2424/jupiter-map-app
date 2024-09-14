@@ -11,6 +11,7 @@ const Maps = ({ children, className, style, onClick, ...options }: MapProps) => 
   const ref = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<google.maps.Map>();
 
+  // 地図の初期化
   useEffect(() => {
     if (ref.current && !map) {
       const mapInstance = new window.google.maps.Map(ref.current, {
@@ -26,6 +27,7 @@ const Maps = ({ children, className, style, onClick, ...options }: MapProps) => 
     }
   }, [ref, map, options.center, options.zoom, onClick]);
 
+  // 地図の中心位置の更新
   useEffect(() => {
     if (map && options.center) {
       map.setCenter(options.center);
