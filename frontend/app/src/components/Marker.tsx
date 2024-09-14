@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 import ReactDOM from "react-dom";
 import InfoWindow from "./InfoWindow";
 
@@ -6,9 +7,29 @@ const Marker = (options: google.maps.MarkerOptions & {
   map?: google.maps.Map,
   draggable?: boolean,
   onDragEnd?: (e: google.maps.MapMouseEvent) => void,
-  title?: string,  // 場所の名前などの情報
 }) => {
   const [marker, setMarker] = useState<google.maps.Marker>();
+  const [infoWindow, setInfoWindow] = useState<google.maps.InfoWindow>();
+  const [position, setPosition] = useState<{ lat: number; lng: number }>(() => {
+  const pos = options.position;
+  if (pos instanceof google.maps.LatLng) {
+    // google.maps.LatLngオブジェクトの場合
+    return {
+      lat: pos.lat(),
+      lng: pos.lng(),
+    };
+  } else if (pos) {
+    // LatLngLiteralの場合
+    return {
+      lat: pos.lat,
+      lng: pos.lng,
+    };
+  }
+  // 位置情報がない場合はデフォルトの値
+  return { lat: 0, lng: 0 };
+});
+
+
 
   useEffect(() => {
     if (!marker && options.map) {
@@ -17,32 +38,51 @@ const Marker = (options: google.maps.MarkerOptions & {
         draggable: options.draggable,
       });
 
-      if (options.onDragEnd) {
-        newMarker.addListener("dragend", options.onDragEnd);
-      }
+      // ドラッグ終了時のイベントリスナーを設定
+      newMarker.addListener("dragend", (e: google.maps.MapMouseEvent) => {
+        const newPosition = {
+          lat: e.latLng?.lat() || 0,
+          lng: e.latLng?.lng() || 0,
+        };
 
-      // マーカーの位置情報を取得
-      const position = {
-        lat: newMarker.getPosition()?.lat() || 0,
-        lng: newMarker.getPosition()?.lng() || 0,
-      };
+        // 位置情報を更新
+        setPosition(newPosition);
 
-      // 情報ウィンドウのDOMノードを作成
-      const infoWindowDiv = document.createElement("div");
+        // Rails APIを呼び出して新しい場所名を取得し、情報ウィンドウを更新
+        axios
+          .get(`http://localhost:3000/reverse_geocode?lat=${newPosition.lat}&lng=${newPosition.lng}`)
+          .then((response) => {
+            console.log(response.data.address);
 
-      // JSXをDOMノードに変換して情報ウィンドウに渡す
-      ReactDOM.render(
-        <InfoWindow title={options.title || "場所の情報"} position={position} />,
-        infoWindowDiv
-      );
+            // InfoWindowのDOMノードを更新
+            if (infoWindow) {
+              const infoWindowDiv = document.createElement("div");
+              ReactDOM.render(<InfoWindow position={newPosition} />, infoWindowDiv);
+              infoWindow.setContent(infoWindowDiv);
 
-      const infoWindow = new google.maps.InfoWindow({
-        content: infoWindowDiv,
+              // 新しい場所で情報ウィンドウを開く
+              infoWindow.open(options.map, newMarker);
+            }
+          })
+          .catch((error) => {
+            alert(error.response.data.error)
+            console.error("Error fetching location data:", error);
+          });
       });
 
       // マーカーのクリックイベントで情報ウィンドウを表示
       newMarker.addListener("click", () => {
-        infoWindow.open(options.map, newMarker);
+        if (infoWindow) {
+          infoWindow.open(options.map, newMarker);
+        } else {
+          const infoWindowDiv = document.createElement("div");
+          ReactDOM.render(<InfoWindow position={position} />, infoWindowDiv);
+          const newInfoWindow = new google.maps.InfoWindow({
+            content: infoWindowDiv,
+          });
+          newInfoWindow.open(options.map, newMarker);
+          setInfoWindow(newInfoWindow);
+        }
       });
 
       setMarker(newMarker);
