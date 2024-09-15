@@ -19,7 +19,9 @@ typscript 4.9.5
 
 
 ### メモ
+Google Mapsでドラッグ可能なピンと情報ウィンドウを表示する方法
+https://zenn.dev/kingdom0927/articles/b9d82c0c6cc5ac
+
 
 参考にした記事
-
 https://zenn.dev/dsakai07/articles/84ceb379cffbcb
