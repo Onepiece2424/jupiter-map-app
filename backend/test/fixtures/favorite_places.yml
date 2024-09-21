@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  latitude: 1
+  longitude: 1
+  place_name: MyString
+  country: MyString
+  postcode: MyString
+  user: one
+
+two:
+  latitude: 1
+  longitude: 1
+  place_name: MyString
+  country: MyString
+  postcode: MyString
+  user: two
