@@ -49,3 +49,4 @@ end
 gem 'pry-rails'
 gem 'pry-byebug'
 gem 'geocoder'
+gem 'devise_token_auth'
