@@ -96,6 +96,7 @@ GEM
       csv (>= 3.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    hashie (5.0.0)
     i18n (1.14.5)
       concurrent-ruby (~> 1.0)
     io-console (0.7.2)
@@ -127,6 +128,9 @@ GEM
     nio4r (2.7.3)
     nokogiri (1.16.7-x86_64-linux)
       racc (~> 1.4)
+    omniauth (1.9.2)
+      hashie (>= 3.4.6)
+      rack (>= 1.6.2, < 3)
     orm_adapter (0.5.0)
     pg (1.5.8)
     pry (0.14.2)
@@ -203,6 +207,7 @@ DEPENDENCIES
   debug
   devise_token_auth
   geocoder
+  omniauth (~> 1.0)
   pg (~> 1.1)
   pry-byebug
   pry-rails
