@@ -10,9 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_07_052754) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_21_104808) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "favorite_places", force: :cascade do |t|
+    t.integer "latitude"
+    t.integer "longitude"
+    t.string "place_name"
+    t.string "country"
+    t.string "postcode"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_favorite_places_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "firstname"
@@ -25,4 +37,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_07_052754) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "favorite_places", "users"
 end
