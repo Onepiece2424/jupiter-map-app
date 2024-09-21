@@ -1,49 +1,40 @@
 class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[7.0]
   def change
-    
-    create_table(:users) do |t|
-      ## Required
-      t.string :provider, :null => false, :default => "email"
-      t.string :uid, :null => false, :default => ""
+    ## Required
+    add_column :users, :provider, :string, null: false, default: "email"
+    add_column :users, :uid, :string, null: false, default: ""
 
-      ## Database authenticatable
-      t.string :encrypted_password, :null => false, :default => ""
+    ## Database authenticatable
+    add_column :users, :encrypted_password, :string, null: false, default: ""
 
-      ## Recoverable
-      t.string   :reset_password_token
-      t.datetime :reset_password_sent_at
-      t.boolean  :allow_password_change, :default => false
+    ## Recoverable
+    add_column :users, :reset_password_token, :string
+    add_column :users, :reset_password_sent_at, :datetime
+    add_column :users, :allow_password_change, :boolean, default: false
 
-      ## Rememberable
-      t.datetime :remember_created_at
+    ## Rememberable
+    add_column :users, :remember_created_at, :datetime
 
-      ## Confirmable
-      t.string   :confirmation_token
-      t.datetime :confirmed_at
-      t.datetime :confirmation_sent_at
-      t.string   :unconfirmed_email # Only if using reconfirmable
+    ## Confirmable
+    add_column :users, :confirmation_token, :string
+    add_column :users, :confirmed_at, :datetime
+    add_column :users, :confirmation_sent_at, :datetime
+    add_column :users, :unconfirmed_email, :string # Only if using reconfirmable
 
-      ## Lockable
-      # t.integer  :failed_attempts, :default => 0, :null => false # Only if lock strategy is :failed_attempts
-      # t.string   :unlock_token # Only if unlock strategy is :email or :both
-      # t.datetime :locked_at
+    ## User Info
+    add_column :users, :name, :string
+    add_column :users, :nickname, :string
+    add_column :users, :image, :string
+    # emailカラムは既に存在しているため、追加しない
+    # add_column :users, :email, :string
 
-      ## User Info
-      t.string :name
-      t.string :nickname
-      t.string :image
-      t.string :email
+    ## Tokens
+    add_column :users, :tokens, :json
 
-      ## Tokens
-      t.json :tokens
-
-      t.timestamps
-    end
-
-    add_index :users, :email,                unique: true
-    add_index :users, [:uid, :provider],     unique: true
+    ## Indexes
+    add_index :users, :email, unique: true
+    add_index :users, [:uid, :provider], unique: true
     add_index :users, :reset_password_token, unique: true
-    add_index :users, :confirmation_token,   unique: true
-    # add_index :users, :unlock_token,         unique: true
+    add_index :users, :confirmation_token, unique: true
   end
 end
