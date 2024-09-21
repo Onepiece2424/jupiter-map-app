@@ -1,6 +1,6 @@
 import { InfoWindowProps } from "../types/types";
 
-function InfoWindow({ position, address }: InfoWindowProps) {
+const InfoWindow = ({ position, address }: InfoWindowProps) => {
   const { lat, lng } = position;
   const { country = "不明", postcode = "不明", city = "不明" } = address || {};
 
