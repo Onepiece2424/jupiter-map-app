@@ -1,28 +1,18 @@
-import React from "react";
+import { InfoWindowProps } from "../types/types";
 
-interface Address {
-  country: string;
-  postcode: string;
-  city: string;
-}
-
-interface InfoWindowProps {
-  position: google.maps.LatLngLiteral;
-  address: Address;
-}
-
-const InfoWindow: React.FC<InfoWindowProps> = ({ position, address }) => {
-  console.log(address);
+function InfoWindow({ position, address }: InfoWindowProps) {
+  const { lat, lng } = position;
+  const { country = "不明", postcode = "不明", city = "不明" } = address || {};
 
   return (
     <div>
-      <p>緯度: {position.lat}</p>
-      <p>経度: {position.lng}</p>
-      <p>国: {address?.country}</p>
-      <p>郵便番号: {address?.postcode}</p>
-      <p>市区町村: {address?.city}</p>
+      <p>緯度: {lat}</p>
+      <p>経度: {lng}</p>
+      <p>国: {country}</p>
+      <p>郵便番号: {postcode}</p>
+      <p>市区町村: {city}</p>
     </div>
   );
-};
+}
 
 export default InfoWindow;
