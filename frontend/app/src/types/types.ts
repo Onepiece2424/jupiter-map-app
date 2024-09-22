@@ -15,3 +15,8 @@ export type User = {
   firstname: string;
   lastname: string;
 };
+
+export type FormData = {
+  email: string;
+  password: string;
+}
