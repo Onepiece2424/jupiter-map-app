@@ -1,9 +1,11 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { FormData } from '../types/types';
+import { useNavigate } from 'react-router-dom';
 import styled from "styled-components"
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
   const [error, setError] = useState<string | null>(null);
 
@@ -24,6 +26,7 @@ const LoginForm = () => {
       const responseData = await response.json();
       console.log(responseData);  // ログイン成功後のデータ処理
       setError(null);
+      responseData && navigate('/');
     } catch (err: any) {
       setError(err.message);
     }
