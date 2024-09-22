@@ -10,10 +10,20 @@ const InfoWindow = ({ position, address }: InfoWindowProps) => {
     createFavoritePlace(lat, lng, country, postcode, city);
   };
 
-  const createFavoritePlace = (lat: number, lng: number, country: string, postcode: string, city: string) => {
-    const response = axios.post('http://localhost:3000/favorite_places', {lat: lat, lng: lng, country: country, postcode: postcode, city: city})
-    console.log(response);
-  }
+    const createFavoritePlace = async (lat: number, lng: number, country: string, postcode: string, city: string) => {
+      try {
+          const response = await axios.post('http://localhost:3000/favorite_places', {
+              lat: lat,
+              lng: lng,
+              country: country,
+              postcode: postcode,
+              city: city
+          });
+          console.log(response.data); // レスポンスデータを表示
+      } catch (error) {
+          console.error('Error creating favorite place:', error);
+      }
+  };
 
   return (
     <div>
