@@ -1,14 +1,18 @@
 import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import GoogleMaps from './components/GoogleMaps';
 import UserData from './components/UserData';
 
-
 function App() {
   return (
-    <div className="App">
-      <UserData />
-      <GoogleMaps />
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <Routes>
+          <Route path="/users" element={<UserData />} />
+          <Route path="/" element={<GoogleMaps />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
