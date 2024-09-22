@@ -21,13 +21,6 @@ const UserData = () => {
       });
   }, []);
 
-  // Tsの練習（後で削除してOK）----
-  const greeting: string = "Hello";
-  const target: string = "123";
-  console.log(greeting + target);
-
-  // ------------------------------
-
   return (
     <>
       <div>ユーザーデータだよ。</div>
