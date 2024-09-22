@@ -9,6 +9,8 @@ class FavoritePlacesController < ApplicationController
   end
 
   def create
+    @favorite_place = FavoritePlace.create(latitude: params[:lat], longitude: params[:lng], country: params[:country], postcode: params[:postcode])
+    render json: @favorite_place
   end
 
   private

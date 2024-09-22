@@ -1,3 +1,4 @@
+import axios from "axios";
 import { InfoWindowProps } from "../types/types";
 
 const InfoWindow = ({ position, address }: InfoWindowProps) => {
@@ -10,7 +11,8 @@ const InfoWindow = ({ position, address }: InfoWindowProps) => {
   };
 
   const createFavoritePlace = (lat: number, lng: number, country: string, postcode: string, city: string) => {
-    console.log(lat, lng, country, postcode, city);
+    const response = axios.post('http://localhost:3000/favorite_places', {lat: lat, lng: lng, country: country, postcode: postcode, city: city})
+    console.log(response);
   }
 
   return (
