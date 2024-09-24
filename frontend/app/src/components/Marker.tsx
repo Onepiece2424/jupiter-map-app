@@ -51,12 +51,17 @@ const Marker = (options: google.maps.MarkerOptions & {
         draggable: options.draggable,
       });
 
+      // ドラッグ終了時のリスナー
       newMarker.addListener("dragend", async (e: google.maps.MapMouseEvent) => {
         const newPosition = {
           lat: e.latLng?.lat() || 0,
           lng: e.latLng?.lng() || 0,
         };
         setPosition(newPosition);
+
+        // マーカーを新しい位置に設定
+        newMarker.setPosition(newPosition);
+
         const fetchedAddress = await fetchAddress(newPosition.lat, newPosition.lng);
         setAddress(fetchedAddress);
         setInfoWindowVisible(true);
@@ -74,6 +79,7 @@ const Marker = (options: google.maps.MarkerOptions & {
         infoWindow.open(options.map, newMarker);
       });
 
+      // マーカークリック時のリスナー
       newMarker.addListener("click", async () => {
         const fetchedAddress = await fetchAddress(position.lat, position.lng);
         setAddress(fetchedAddress);
@@ -83,6 +89,34 @@ const Marker = (options: google.maps.MarkerOptions & {
         ReactDOM.render(
           <InfoWindow
             position={position}
+            address={fetchedAddress}
+            onClose={handleClose}
+          />,
+          infoWindowDiv
+        );
+        infoWindow.setContent(infoWindowDiv);
+        infoWindow.open(options.map, newMarker);
+      });
+
+      // マップクリック時のリスナー
+      options.map.addListener("click", async (e: google.maps.MapMouseEvent) => {
+        const newPosition = {
+          lat: e.latLng?.lat() || 0,
+          lng: e.latLng?.lng() || 0,
+        };
+        setPosition(newPosition);
+
+        // マーカーの位置を新しい位置に更新
+        newMarker.setPosition(newPosition);
+
+        const fetchedAddress = await fetchAddress(newPosition.lat, newPosition.lng);
+        setAddress(fetchedAddress);
+        setInfoWindowVisible(true);
+
+        const infoWindowDiv = document.createElement("div");
+        ReactDOM.render(
+          <InfoWindow
+            position={newPosition}
             address={fetchedAddress}
             onClose={handleClose}
           />,
