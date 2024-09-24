@@ -10,7 +10,9 @@ const Marker = (options: google.maps.MarkerOptions & {
 }) => {
 
   const [marker, setMarker] = useState<google.maps.Marker>();
-  const [infoWindow, setInfoWindow] = useState<google.maps.InfoWindow>();
+  const [infoWindow, setInfoWindow] = useState<google.maps.InfoWindow>(
+    new google.maps.InfoWindow()  // 初期値として1つの InfoWindow を作成
+  );
 
   const [position, setPosition] = useState<{ lat: number; lng: number }>(() => {
     const pos = options.position;
@@ -34,7 +36,6 @@ const Marker = (options: google.maps.MarkerOptions & {
       return response.data.address;
     } catch (error) {
       console.error("Error fetching location data:", error);
-      // alert("住所データの取得に失敗しました")
     }
   };
 
@@ -54,39 +55,19 @@ const Marker = (options: google.maps.MarkerOptions & {
 
         const address = await fetchAddress(newPosition.lat, newPosition.lng);
 
-        if (infoWindow) {
-          const infoWindowDiv = document.createElement("div");
-          ReactDOM.render(<InfoWindow position={newPosition} address={address} />, infoWindowDiv);
-          infoWindow.setContent(infoWindowDiv);
-          infoWindow.open(options.map, newMarker);
-        } else {
-          const infoWindowDiv = document.createElement("div");
-          ReactDOM.render(<InfoWindow position={newPosition} address={address} />, infoWindowDiv);
-          const newInfoWindow = new google.maps.InfoWindow({
-            content: infoWindowDiv,
-          });
-          newInfoWindow.open(options.map, newMarker);
-          setInfoWindow(newInfoWindow);
-        }
+        const infoWindowDiv = document.createElement("div");
+        ReactDOM.render(<InfoWindow position={newPosition} address={address} />, infoWindowDiv);
+        infoWindow.setContent(infoWindowDiv);
+        infoWindow.open(options.map, newMarker);
       });
 
       newMarker.addListener("click", async () => {
         const address = await fetchAddress(position.lat, position.lng);
 
-        if (infoWindow) {
-          const infoWindowDiv = document.createElement("div");
-          ReactDOM.render(<InfoWindow position={position} address={address} />, infoWindowDiv);
-          infoWindow.setContent(infoWindowDiv);
-          infoWindow.open(options.map, newMarker);
-        } else {
-          const infoWindowDiv = document.createElement("div");
-          ReactDOM.render(<InfoWindow position={position} address={address} />, infoWindowDiv);
-          const newInfoWindow = new google.maps.InfoWindow({
-            content: infoWindowDiv,
-          });
-          newInfoWindow.open(options.map, newMarker);
-          setInfoWindow(newInfoWindow);
-        }
+        const infoWindowDiv = document.createElement("div");
+        ReactDOM.render(<InfoWindow position={position} address={address} />, infoWindowDiv);
+        infoWindow.setContent(infoWindowDiv);
+        infoWindow.open(options.map, newMarker);
       });
 
       setMarker(newMarker);
