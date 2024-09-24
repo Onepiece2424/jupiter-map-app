@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { FormData } from '../types/types';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import styled from "styled-components"
 
 const LoginForm = () => {
@@ -10,25 +11,26 @@ const LoginForm = () => {
   const [error, setError] = useState<string | null>(null);
 
   const onSubmit = async (data: FormData) => {
+    const { email, password } = data;
     try {
-      const response = await fetch('http://localhost:3000/auth/sign_in', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await axios.post('http://localhost:3000/auth/sign_in',
+          { email: email, password: password });
+console.log(response);
 
-      if (!response.ok) {
-        throw new Error('ログインに失敗しました');
-      }
+      // // ここでヘッダーから access-token、client、uid を取得
+      // const accessToken = response.headers.get('access-token');
+      // const client = response.headers.get('client');
+      // const uid = response.headers.get('uid');
 
-      const responseData = await response.json();
-      console.log(responseData);  // ログイン成功後のデータ処理
-      setError(null);
-      responseData && navigate('/');
+      // // 保存する場合は、ローカルストレージやステートに保存
+      // localStorage.setItem('access-token', accessToken || '');
+      // localStorage.setItem('client', client || '');
+      // localStorage.setItem('uid', uid || '');
+
+      // トップページへ遷移
+      navigate('/');
     } catch (err: any) {
-      setError(err.message);
+      alert('ログインに失敗しました');
     }
   };
 
