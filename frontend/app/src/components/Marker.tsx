@@ -10,6 +10,7 @@ const Marker = (options: google.maps.MarkerOptions & {
   onDragEnd?: (e: google.maps.MapMouseEvent) => void,
 }) => {
   const [marker, setMarker] = useState<google.maps.Marker>();
+  const [address, setAddress] = useState<Address | undefined>(undefined);
   const [infoWindow, setInfoWindow] = useState<google.maps.InfoWindow>(new google.maps.InfoWindow());
   const [position, setPosition] = useState<{ lat: number; lng: number }>(() => {
     const pos = options.position;
@@ -27,9 +28,6 @@ const Marker = (options: google.maps.MarkerOptions & {
     return { lat: 0, lng: 0 };
   });
 
-  const [address, setAddress] = useState<Address | undefined>(undefined);
-  const [isInfoWindowVisible, setInfoWindowVisible] = useState(false);
-
   const fetchAddress = async (lat: number, lng: number) => {
     try {
       const response = await axios.get(`http://localhost:3000/reverse_geocode?lat=${lat}&lng=${lng}`);
@@ -42,7 +40,6 @@ const Marker = (options: google.maps.MarkerOptions & {
 
   const handleClose = () => {
     infoWindow.close();
-    setInfoWindowVisible(false);
   };
 
   useEffect(() => {
@@ -65,7 +62,6 @@ const Marker = (options: google.maps.MarkerOptions & {
 
         const fetchedAddress = await fetchAddress(newPosition.lat, newPosition.lng);
         setAddress(fetchedAddress);
-        setInfoWindowVisible(true);
 
         const infoWindowDiv = document.createElement("div");
         ReactDOM.render(
@@ -84,7 +80,6 @@ const Marker = (options: google.maps.MarkerOptions & {
       newMarker.addListener("click", async () => {
         const fetchedAddress = await fetchAddress(position.lat, position.lng);
         setAddress(fetchedAddress);
-        setInfoWindowVisible(true);
 
         const infoWindowDiv = document.createElement("div");
         ReactDOM.render(
@@ -112,7 +107,6 @@ const Marker = (options: google.maps.MarkerOptions & {
 
         const fetchedAddress = await fetchAddress(newPosition.lat, newPosition.lng);
         setAddress(fetchedAddress);
-        setInfoWindowVisible(true);
 
         const infoWindowDiv = document.createElement("div");
         ReactDOM.render(
