@@ -2,7 +2,7 @@ import axios from "axios";
 import { InfoWindowProps } from "../types/types";
 import styled from "styled-components";
 
-const InfoWindow = ({ position, address }: InfoWindowProps) => {
+const InfoWindow = ({ position, address, onClose }: InfoWindowProps) => {
   const { lat, lng } = position;
   const { country = "不明", postcode = "不明", city = "不明" } = address || {};
 
@@ -16,7 +16,6 @@ const InfoWindow = ({ position, address }: InfoWindowProps) => {
     const accessToken = localStorage.getItem('access-token');
     const uid = localStorage.getItem('uid');
     const client = localStorage.getItem('client');
-console.log(accessToken);
 
     try {
       const response = await axios.post(
@@ -48,17 +47,17 @@ console.log(accessToken);
       <p>お気に入り登録しますか？</p>
       <div>
         <StyledButton onClick={handleClick}>はい</StyledButton>
-        <StyledButton>いいえ</StyledButton>
+        <StyledButton onClick={onClose}>いいえ</StyledButton>
       </div>
       <p>国: {country}</p>
       <p>郵便番号: {postcode}</p>
       <p>市区町村: {city}</p>
     </div>
   );
-}
+};
 
 const StyledButton = styled.button`
   margin: 0 10px;
-`
+`;
 
 export default InfoWindow;

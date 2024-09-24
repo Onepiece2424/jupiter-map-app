@@ -8,12 +8,8 @@ const Marker = (options: google.maps.MarkerOptions & {
   draggable?: boolean,
   onDragEnd?: (e: google.maps.MapMouseEvent) => void,
 }) => {
-
   const [marker, setMarker] = useState<google.maps.Marker>();
-  const [infoWindow, setInfoWindow] = useState<google.maps.InfoWindow>(
-    new google.maps.InfoWindow()  // 初期値として1つの InfoWindow を作成
-  );
-
+  const [infoWindow, setInfoWindow] = useState<google.maps.InfoWindow>(new google.maps.InfoWindow());
   const [position, setPosition] = useState<{ lat: number; lng: number }>(() => {
     const pos = options.position;
     if (pos instanceof google.maps.LatLng) {
@@ -30,13 +26,22 @@ const Marker = (options: google.maps.MarkerOptions & {
     return { lat: 0, lng: 0 };
   });
 
+  const [address, setAddress] = useState<{ country?: string; postcode?: string; city?: string } | null>(null);
+  const [isInfoWindowVisible, setInfoWindowVisible] = useState(false);
+
   const fetchAddress = async (lat: number, lng: number) => {
     try {
       const response = await axios.get(`http://localhost:3000/reverse_geocode?lat=${lat}&lng=${lng}`);
       return response.data.address;
     } catch (error) {
       console.error("Error fetching location data:", error);
+      return null;
     }
+  };
+
+  const handleClose = () => {
+    infoWindow.close();
+    setInfoWindowVisible(false);
   };
 
   useEffect(() => {
@@ -52,20 +57,37 @@ const Marker = (options: google.maps.MarkerOptions & {
           lng: e.latLng?.lng() || 0,
         };
         setPosition(newPosition);
-
-        const address = await fetchAddress(newPosition.lat, newPosition.lng);
+        const fetchedAddress = await fetchAddress(newPosition.lat, newPosition.lng);
+        setAddress(fetchedAddress);
+        setInfoWindowVisible(true);
 
         const infoWindowDiv = document.createElement("div");
-        ReactDOM.render(<InfoWindow position={newPosition} address={address} />, infoWindowDiv);
+        ReactDOM.render(
+          <InfoWindow
+            position={newPosition}
+            address={fetchedAddress}
+            onClose={handleClose}
+          />,
+          infoWindowDiv
+        );
         infoWindow.setContent(infoWindowDiv);
         infoWindow.open(options.map, newMarker);
       });
 
       newMarker.addListener("click", async () => {
-        const address = await fetchAddress(position.lat, position.lng);
+        const fetchedAddress = await fetchAddress(position.lat, position.lng);
+        setAddress(fetchedAddress);
+        setInfoWindowVisible(true);
 
         const infoWindowDiv = document.createElement("div");
-        ReactDOM.render(<InfoWindow position={position} address={address} />, infoWindowDiv);
+        ReactDOM.render(
+          <InfoWindow
+            position={position}
+            address={fetchedAddress}
+            onClose={handleClose}
+          />,
+          infoWindowDiv
+        );
         infoWindow.setContent(infoWindowDiv);
         infoWindow.open(options.map, newMarker);
       });
