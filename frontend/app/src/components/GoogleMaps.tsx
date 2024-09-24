@@ -3,11 +3,7 @@ import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import Maps from './Maps';
 import Marker from './Marker';
 import LocationSearchForm from './LocationSearchForm';
-
-type GoogleMapsProps = {
-  lat: number;
-  lng: number;
-};
+import { GoogleMapsProps } from '../types/types';
 
 const GoogleMaps = () => {
   const [lat, setLat] = useState<number>(35.7140371);
