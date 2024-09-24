@@ -13,25 +13,31 @@ const LoginForm = () => {
   const onSubmit = async (data: FormData) => {
     const { email, password } = data;
     try {
-      const response = await axios.post('http://localhost:3000/auth/sign_in',
-          { email: email, password: password });
-console.log(response);
+      const response = await axios.post('http://localhost:3000/auth/sign_in', {
+        email,
+        password,
+      });
 
-      // // ここでヘッダーから access-token、client、uid を取得
-      // const accessToken = response.headers.get('access-token');
-      // const client = response.headers.get('client');
-      // const uid = response.headers.get('uid');
-
-      // // 保存する場合は、ローカルストレージやステートに保存
-      // localStorage.setItem('access-token', accessToken || '');
-      // localStorage.setItem('client', client || '');
-      // localStorage.setItem('uid', uid || '');
-
-      // トップページへ遷移
+      saveAuthHeaders(response.headers);
       navigate('/');
-    } catch (err: any) {
-      alert('ログインに失敗しました');
+    } catch (err) {
+      handleError(err);
     }
+  };
+
+  const saveAuthHeaders = (headers: any) => {
+    const accessToken = headers['access-token'] || '';
+    const client = headers['client'] || '';
+    const uid = headers['uid'] || '';
+
+    localStorage.setItem('access-token', accessToken);
+    localStorage.setItem('client', client);
+    localStorage.setItem('uid', uid);
+  };
+
+  const handleError = (error: any) => {
+    const errorMessage = error.response?.data?.error || 'ログインに失敗しました';
+    alert(errorMessage);
   };
 
   return (
