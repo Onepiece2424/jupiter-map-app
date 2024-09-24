@@ -16,7 +16,7 @@ const Maps = ({ children, className, style, onClick, ...options }: MapProps) => 
     if (ref.current && !map) {
       const mapInstance = new window.google.maps.Map(ref.current, {
         center: options.center,
-        zoom: options.zoom || 16,
+        zoom: options.zoom || 6,
       });
 
       if (onClick) {
