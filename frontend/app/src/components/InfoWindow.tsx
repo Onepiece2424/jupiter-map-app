@@ -10,19 +10,36 @@ const InfoWindow = ({ position, address }: InfoWindowProps) => {
     createFavoritePlace(lat, lng, country, postcode, city);
   };
 
-    const createFavoritePlace = async (lat: number, lng: number, country: string, postcode: string, city: string) => {
-      try {
-          const response = await axios.post('http://localhost:3000/favorite_places', {
-              lat: lat,
-              lng: lng,
-              country: country,
-              postcode: postcode,
-              city: city
-          });
-          console.log(response.data); // レスポンスデータを表示
-      } catch (error) {
-          console.error('Error creating favorite place:', error);
-      }
+  const createFavoritePlace = async (lat: number, lng: number, country: string, postcode: string, city: string) => {
+    // localStorageから認証情報を取得
+    const accessToken = localStorage.getItem('access-token');
+    const uid = localStorage.getItem('uid');
+    const client = localStorage.getItem('client');
+console.log(accessToken);
+
+    try {
+      const response = await axios.post(
+        'http://localhost:3000/favorite_places',
+        {
+          lat: lat,
+          lng: lng,
+          country: country,
+          postcode: postcode,
+          city: city
+        },
+        {
+          headers: {
+            'access-token': accessToken || '',
+            'uid': uid || '',
+            'client': client || '',
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log(response.data); // レスポンスデータを表示
+    } catch (error) {
+      console.error('Error creating favorite place:', error);
+    }
   };
 
   return (

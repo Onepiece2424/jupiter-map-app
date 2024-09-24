@@ -1,4 +1,5 @@
 class FavoritePlacesController < ApplicationController
+  before_action :authenticate_user!
 
   def index
     @favorite_places = FavoritePlace.all
@@ -9,7 +10,7 @@ class FavoritePlacesController < ApplicationController
   end
 
   def create
-    @favorite_place = FavoritePlace.create(latitude: params[:lat], longitude: params[:lng], country: params[:country], postcode: params[:postcode], user_id: User.first.id)
+    @favorite_place = FavoritePlace.create(latitude: params[:lat], longitude: params[:lng], country: params[:country], postcode: params[:postcode], user_id: current_user.id)
     render json: @favorite_place
   end
 
