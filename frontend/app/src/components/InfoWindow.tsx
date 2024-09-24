@@ -45,16 +45,14 @@ console.log(accessToken);
 
   return (
     <div>
-      <p>緯度: {lat}</p>
-      <p>経度: {lng}</p>
-      <p>国: {country}</p>
-      <p>郵便番号: {postcode}</p>
-      <p>市区町村: {city}</p>
       <p>お気に入り登録しますか？</p>
       <div>
         <StyledButton onClick={handleClick}>はい</StyledButton>
         <StyledButton>いいえ</StyledButton>
       </div>
+      <p>国: {country}</p>
+      <p>郵便番号: {postcode}</p>
+      <p>市区町村: {city}</p>
     </div>
   );
 }
