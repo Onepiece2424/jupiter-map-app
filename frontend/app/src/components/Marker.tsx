@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import ReactDOM from "react-dom";
 import InfoWindow from "./InfoWindow";
+import { Address } from "../types/types";
 
 const Marker = (options: google.maps.MarkerOptions & {
   map?: google.maps.Map,
@@ -26,7 +27,7 @@ const Marker = (options: google.maps.MarkerOptions & {
     return { lat: 0, lng: 0 };
   });
 
-  const [address, setAddress] = useState<{ country?: string; postcode?: string; city?: string } | null>(null);
+  const [address, setAddress] = useState<Address | undefined>(undefined);
   const [isInfoWindowVisible, setInfoWindowVisible] = useState(false);
 
   const fetchAddress = async (lat: number, lng: number) => {
@@ -70,7 +71,7 @@ const Marker = (options: google.maps.MarkerOptions & {
         ReactDOM.render(
           <InfoWindow
             position={newPosition}
-            address={fetchedAddress}
+            address={address}
             onClose={handleClose}
           />,
           infoWindowDiv
@@ -89,7 +90,7 @@ const Marker = (options: google.maps.MarkerOptions & {
         ReactDOM.render(
           <InfoWindow
             position={position}
-            address={fetchedAddress}
+            address={address}
             onClose={handleClose}
           />,
           infoWindowDiv
@@ -117,7 +118,7 @@ const Marker = (options: google.maps.MarkerOptions & {
         ReactDOM.render(
           <InfoWindow
             position={newPosition}
-            address={fetchedAddress}
+            address={address}
             onClose={handleClose}
           />,
           infoWindowDiv
