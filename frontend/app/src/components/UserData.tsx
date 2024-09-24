@@ -1,12 +1,6 @@
 import { useState, useEffect } from 'react'
+import { User } from '../types/types';
 import axios from 'axios'
-
-// User型の定義
-type User = {
-  id: number;
-  firstname: string;
-  lastname: string;
-};
 
 const UserData = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -20,13 +14,6 @@ const UserData = () => {
         alert(error);
       });
   }, []);
-
-  // Tsの練習（後で削除してOK）----
-  const greeting: string = "Hello";
-  const target: string = "123";
-  console.log(greeting + target);
-
-  // ------------------------------
 
   return (
     <>

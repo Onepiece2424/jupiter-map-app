@@ -2,16 +2,16 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import ReactDOM from "react-dom";
 import InfoWindow from "./InfoWindow";
+import { Address } from "../types/types";
 
 const Marker = (options: google.maps.MarkerOptions & {
   map?: google.maps.Map,
   draggable?: boolean,
   onDragEnd?: (e: google.maps.MapMouseEvent) => void,
 }) => {
-
   const [marker, setMarker] = useState<google.maps.Marker>();
-  const [infoWindow, setInfoWindow] = useState<google.maps.InfoWindow>();
-
+  const [address, setAddress] = useState<Address | undefined>(undefined);
+  const [infoWindow, setInfoWindow] = useState<google.maps.InfoWindow>(new google.maps.InfoWindow());
   const [position, setPosition] = useState<{ lat: number; lng: number }>(() => {
     const pos = options.position;
     if (pos instanceof google.maps.LatLng) {
@@ -34,8 +34,12 @@ const Marker = (options: google.maps.MarkerOptions & {
       return response.data.address;
     } catch (error) {
       console.error("Error fetching location data:", error);
-      alert("住所データの取得に失敗しました")
+      return null;
     }
+  };
+
+  const handleClose = () => {
+    infoWindow.close();
   };
 
   useEffect(() => {
@@ -45,6 +49,7 @@ const Marker = (options: google.maps.MarkerOptions & {
         draggable: options.draggable,
       });
 
+      // ドラッグ終了時のリスナー
       newMarker.addListener("dragend", async (e: google.maps.MapMouseEvent) => {
         const newPosition = {
           lat: e.latLng?.lat() || 0,
@@ -52,41 +57,68 @@ const Marker = (options: google.maps.MarkerOptions & {
         };
         setPosition(newPosition);
 
-        const address = await fetchAddress(newPosition.lat, newPosition.lng);
+        // マーカーを新しい位置に設定
+        newMarker.setPosition(newPosition);
 
-        if (infoWindow) {
-          const infoWindowDiv = document.createElement("div");
-          ReactDOM.render(<InfoWindow position={newPosition} address={address} />, infoWindowDiv);
-          infoWindow.setContent(infoWindowDiv);
-          infoWindow.open(options.map, newMarker);
-        } else {
-          const infoWindowDiv = document.createElement("div");
-          ReactDOM.render(<InfoWindow position={newPosition} address={address} />, infoWindowDiv);
-          const newInfoWindow = new google.maps.InfoWindow({
-            content: infoWindowDiv,
-          });
-          newInfoWindow.open(options.map, newMarker);
-          setInfoWindow(newInfoWindow);
-        }
+        const fetchedAddress = await fetchAddress(newPosition.lat, newPosition.lng);
+        setAddress(fetchedAddress);
+
+        const infoWindowDiv = document.createElement("div");
+        ReactDOM.render(
+          <InfoWindow
+            position={newPosition}
+            address={address}
+            onClose={handleClose}
+          />,
+          infoWindowDiv
+        );
+        infoWindow.setContent(infoWindowDiv);
+        infoWindow.open(options.map, newMarker);
       });
 
+      // マーカークリック時のリスナー
       newMarker.addListener("click", async () => {
-        const address = await fetchAddress(position.lat, position.lng);
+        const fetchedAddress = await fetchAddress(position.lat, position.lng);
+        setAddress(fetchedAddress);
 
-        if (infoWindow) {
-          const infoWindowDiv = document.createElement("div");
-          ReactDOM.render(<InfoWindow position={position} address={address} />, infoWindowDiv);
-          infoWindow.setContent(infoWindowDiv);
-          infoWindow.open(options.map, newMarker);
-        } else {
-          const infoWindowDiv = document.createElement("div");
-          ReactDOM.render(<InfoWindow position={position} address={address} />, infoWindowDiv);
-          const newInfoWindow = new google.maps.InfoWindow({
-            content: infoWindowDiv,
-          });
-          newInfoWindow.open(options.map, newMarker);
-          setInfoWindow(newInfoWindow);
-        }
+        const infoWindowDiv = document.createElement("div");
+        ReactDOM.render(
+          <InfoWindow
+            position={position}
+            address={address}
+            onClose={handleClose}
+          />,
+          infoWindowDiv
+        );
+        infoWindow.setContent(infoWindowDiv);
+        infoWindow.open(options.map, newMarker);
+      });
+
+      // マップクリック時のリスナー
+      options.map.addListener("click", async (e: google.maps.MapMouseEvent) => {
+        const newPosition = {
+          lat: e.latLng?.lat() || 0,
+          lng: e.latLng?.lng() || 0,
+        };
+        setPosition(newPosition);
+
+        // マーカーの位置を新しい位置に更新
+        newMarker.setPosition(newPosition);
+
+        const fetchedAddress = await fetchAddress(newPosition.lat, newPosition.lng);
+        setAddress(fetchedAddress);
+
+        const infoWindowDiv = document.createElement("div");
+        ReactDOM.render(
+          <InfoWindow
+            position={newPosition}
+            address={address}
+            onClose={handleClose}
+          />,
+          infoWindowDiv
+        );
+        infoWindow.setContent(infoWindowDiv);
+        infoWindow.open(options.map, newMarker);
       });
 
       setMarker(newMarker);
