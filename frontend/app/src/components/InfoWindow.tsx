@@ -1,5 +1,6 @@
 import axios from "axios";
 import { InfoWindowProps } from "../types/types";
+import styled from "styled-components";
 
 const InfoWindow = ({ position, address }: InfoWindowProps) => {
   const { lat, lng } = position;
@@ -51,11 +52,15 @@ console.log(accessToken);
       <p>市区町村: {city}</p>
       <p>お気に入り登録しますか？</p>
       <div>
-        <button onClick={handleClick}>はい</button>
-        <button>いいえ</button>
+        <StyledButton onClick={handleClick}>はい</StyledButton>
+        <StyledButton>いいえ</StyledButton>
       </div>
     </div>
   );
 }
+
+const StyledButton = styled.button`
+  margin: 0 10px;
+`
 
 export default InfoWindow;
