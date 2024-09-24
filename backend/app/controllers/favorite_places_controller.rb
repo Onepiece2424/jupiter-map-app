@@ -3,7 +3,7 @@ class FavoritePlacesController < ApplicationController
 
   def index
     @favorite_places = current_user.favorite_places
-    render json: @favorite_places
+    render json: @favorite_places.map { |place| { lat: place.latitude, lng: place.longitude } }
   end
 
   def new
