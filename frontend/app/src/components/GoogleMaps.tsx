@@ -4,6 +4,7 @@ import Maps from './Maps';
 import Marker from './Marker';
 import LocationSearchForm from './LocationSearchForm';
 import { GoogleMapsProps } from '../types/types';
+import FavoriteMarkers from './FavoriteMarkers';
 
 const GoogleMaps = () => {
   const [lat, setLat] = useState<number>(35.7140371);
@@ -27,6 +28,12 @@ const GoogleMaps = () => {
     }
   };
 
+  // お気に入り登録したマーカー座標（仮）
+  const [favPosition, setFavPosition] = useState<google.maps.LatLngLiteral>({
+    lat: 35.7146392,
+    lng: 139.796764,
+  });
+
   return (
     <Wrapper apiKey={apiKey} render={render}>
       <div className='main-container'>
@@ -40,6 +47,7 @@ const GoogleMaps = () => {
             draggable={true}
             onDragEnd={handleMarkerDragEnd}
           />
+          <FavoriteMarkers position={favPosition} />
         </Maps>
       </div>
     </Wrapper>
