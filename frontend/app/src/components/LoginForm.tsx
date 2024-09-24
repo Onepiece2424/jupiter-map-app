@@ -21,7 +21,7 @@ const LoginForm = () => {
       saveAuthHeaders(response.headers);
       navigate('/');
     } catch (err) {
-      handleError(err);
+      setError('ログインに失敗しました')
     }
   };
 
@@ -33,11 +33,6 @@ const LoginForm = () => {
     localStorage.setItem('access-token', accessToken);
     localStorage.setItem('client', client);
     localStorage.setItem('uid', uid);
-  };
-
-  const handleError = (error: any) => {
-    const errorMessage = error.response?.data?.error || 'ログインに失敗しました';
-    alert(errorMessage);
   };
 
   return (
