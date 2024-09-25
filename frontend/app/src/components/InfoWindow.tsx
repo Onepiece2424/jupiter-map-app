@@ -28,6 +28,7 @@ const InfoWindow = ({ position, address, onClose }: InfoWindowProps) => {
         { headers }
       );
       console.log(response.data); // レスポンスデータを表示
+      onClose()
     } catch (error) {
       console.error('Error creating favorite place:', error);
     }
