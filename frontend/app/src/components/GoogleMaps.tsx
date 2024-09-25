@@ -1,16 +1,18 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import axios from 'axios';
+import { useRecoilState } from 'recoil';
+import { favoritePlacesState } from '../atoms/marker';
 import Maps from './Maps';
 import Marker from './Marker';
 import LocationSearchForm from './LocationSearchForm';
 import { GoogleMapsProps } from '../types/types';
 import FavoriteMarkers from './FavoriteMarkers';
-import axios from 'axios';
 
 const GoogleMaps = () => {
   const [lat, setLat] = useState<number>(35.7140371);
   const [lng, setLng] = useState<number>(139.7925173);
-  const [favoritePlaces, setFavoritePlaces] = useState([]); // お気に入り登録したマーカーの座標
+  const [favoritePlaces, setFavoritePlaces] = useRecoilState(favoritePlacesState);
   const apiKey = process.env.REACT_APP_GOOGLE_MAP_API_KEY as string;
   const position: GoogleMapsProps = { lat, lng };
 
