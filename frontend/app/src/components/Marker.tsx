@@ -67,7 +67,7 @@ const Marker = (options: google.maps.MarkerOptions & {
         ReactDOM.render(
           <InfoWindow
             position={newPosition}
-            address={address}
+            address={fetchedAddress}
             onClose={handleClose}
           />,
           infoWindowDiv
@@ -85,7 +85,7 @@ const Marker = (options: google.maps.MarkerOptions & {
         ReactDOM.render(
           <InfoWindow
             position={position}
-            address={address}
+            address={fetchedAddress}
             onClose={handleClose}
           />,
           infoWindowDiv
@@ -112,7 +112,7 @@ const Marker = (options: google.maps.MarkerOptions & {
         ReactDOM.render(
           <InfoWindow
             position={newPosition}
-            address={address}
+            address={fetchedAddress}
             onClose={handleClose}
           />,
           infoWindowDiv
