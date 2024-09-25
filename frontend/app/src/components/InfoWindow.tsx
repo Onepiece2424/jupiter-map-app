@@ -12,12 +12,18 @@ const InfoWindow = ({ position, address, onClose }: InfoWindowProps) => {
   };
 
   const createFavoritePlace = async (lat: number, lng: number, country: string, postcode: string, city: string) => {
+
     // localStorageから認証情報を取得
-    const accessToken = localStorage.getItem('access-token');
-    const uid = localStorage.getItem('uid');
-    const client = localStorage.getItem('client');
+    const getAuthHeaders = () => {
+      const accessToken = localStorage.getItem('access-token') || '';
+      const uid = localStorage.getItem('uid') || '';
+      const client = localStorage.getItem('client') || '';
+
+      return { 'access-token': accessToken, 'uid': uid, 'client': client, 'Content-Type': 'application/json' };
+    };
 
     try {
+      const headers = getAuthHeaders();
       const response = await axios.post(
         'http://localhost:3000/favorite_places',
         {
@@ -27,14 +33,7 @@ const InfoWindow = ({ position, address, onClose }: InfoWindowProps) => {
           postcode: postcode,
           city: city
         },
-        {
-          headers: {
-            'access-token': accessToken || '',
-            'uid': uid || '',
-            'client': client || '',
-            'Content-Type': 'application/json',
-          },
-        }
+        { headers }
       );
       console.log(response.data); // レスポンスデータを表示
     } catch (error) {
