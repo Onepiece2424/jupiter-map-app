@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import ReactDOM from "react-dom";
 import InfoWindow from "./InfoWindow";
-import { Address } from "../types/types";
 
 const Marker = (options: google.maps.MarkerOptions & {
   map?: google.maps.Map,
@@ -10,7 +9,6 @@ const Marker = (options: google.maps.MarkerOptions & {
   onDragEnd?: (e: google.maps.MapMouseEvent) => void,
 }) => {
   const [marker, setMarker] = useState<google.maps.Marker>();
-  const [address, setAddress] = useState<Address | undefined>(undefined);
   const [infoWindow, setInfoWindow] = useState<google.maps.InfoWindow>(new google.maps.InfoWindow());
   const [position, setPosition] = useState<{ lat: number; lng: number }>(() => {
     const pos = options.position;
@@ -61,7 +59,6 @@ const Marker = (options: google.maps.MarkerOptions & {
         newMarker.setPosition(newPosition);
 
         const fetchedAddress = await fetchAddress(newPosition.lat, newPosition.lng);
-        setAddress(fetchedAddress);
 
         const infoWindowDiv = document.createElement("div");
         ReactDOM.render(
@@ -79,7 +76,6 @@ const Marker = (options: google.maps.MarkerOptions & {
       // マーカークリック時のリスナー
       newMarker.addListener("click", async () => {
         const fetchedAddress = await fetchAddress(position.lat, position.lng);
-        setAddress(fetchedAddress);
 
         const infoWindowDiv = document.createElement("div");
         ReactDOM.render(
@@ -106,7 +102,6 @@ const Marker = (options: google.maps.MarkerOptions & {
         newMarker.setPosition(newPosition);
 
         const fetchedAddress = await fetchAddress(newPosition.lat, newPosition.lng);
-        setAddress(fetchedAddress);
 
         const infoWindowDiv = document.createElement("div");
         ReactDOM.render(
