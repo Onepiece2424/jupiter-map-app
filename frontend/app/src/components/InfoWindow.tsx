@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getAuthHeaders } from "../utils";
 import { InfoWindowProps } from "../types/types";
 import styled from "styled-components";
 
@@ -12,15 +13,6 @@ const InfoWindow = ({ position, address, onClose }: InfoWindowProps) => {
   };
 
   const createFavoritePlace = async (lat: number, lng: number, country: string, postcode: string, city: string) => {
-
-    // localStorageから認証情報を取得
-    const getAuthHeaders = () => {
-      const accessToken = localStorage.getItem('access-token') || '';
-      const uid = localStorage.getItem('uid') || '';
-      const client = localStorage.getItem('client') || '';
-
-      return { 'access-token': accessToken, 'uid': uid, 'client': client, 'Content-Type': 'application/json' };
-    };
 
     try {
       const headers = getAuthHeaders();

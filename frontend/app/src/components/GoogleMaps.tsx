@@ -6,6 +6,7 @@ import { favoritePlacesState } from '../atoms/marker';
 import Maps from './Maps';
 import Marker from './Marker';
 import LocationSearchForm from './LocationSearchForm';
+import { getAuthHeaders } from '../utils';
 import { GoogleMapsProps } from '../types/types';
 import FavoriteMarkers from './FavoriteMarkers';
 
@@ -25,15 +26,6 @@ const GoogleMaps = () => {
       setLat(e.latLng.lat());
       setLng(e.latLng.lng());
     }
-  };
-
-  // トークンを取得する関数を作成
-  const getAuthHeaders = () => {
-    const accessToken = localStorage.getItem('access-token') || '';
-    const uid = localStorage.getItem('uid') || '';
-    const client = localStorage.getItem('client') || '';
-
-    return { 'access-token': accessToken, 'uid': uid, 'client': client, 'Content-Type': 'application/json' };
   };
 
   // お気に入りの場所を取得する関数をuseCallbackでメモ化
