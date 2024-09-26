@@ -21,3 +21,8 @@ export type FormData = {
   email: string;
   password: string;
 }
+
+export type GoogleMapsProps = {
+  lat: number;
+  lng: number;
+};

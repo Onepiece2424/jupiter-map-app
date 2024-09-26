@@ -2,7 +2,8 @@ class FavoritePlacesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @favorite_places = FavoritePlace.all
+    @favorite_places = current_user.favorite_places.map { |place| { lat: place.latitude, lng: place.longitude } }
+    render json: @favorite_places
   end
 
   def new
