@@ -19,6 +19,17 @@ const TsPractice = () => {
   const { profile: { name: userName, age: userAge } } = user;
   console.log(userName, userAge); // => "John Doe", 30
 
+  // 分割代入で宣言された変数に直接型注釈をつける例
+  // const { x: number, y: string } = { x: 10, y: "hello" };
+
+  // エラー: 'number' は宣言されていません
+
+  // 正しい型注釈のつけ方
+  const obj1: { x: number; y: string } = { x: 10, y: "hello" };
+  const { x, y } = obj1; // ここでは分割代入だけを行う
+  console.log(x, y);  // => 10 "hello"
+
+
   return (
     <div>TsPractice</div>
   )
