@@ -40,7 +40,6 @@ const Marker = (options: google.maps.MarkerOptions & {
     newPosition: { lat: number; lng: number },
     marker: google.maps.Marker
   ) => {
-    setPosition(newPosition);
 
     // マーカーの位置を更新
     marker.setPosition(newPosition);
