@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import ReactDOM from "react-dom";
+import { GoogleMapsProps } from "../types/types";
 import InfoWindow from "./InfoWindow";
 
 const Marker = (options: google.maps.MarkerOptions & {
@@ -10,7 +11,7 @@ const Marker = (options: google.maps.MarkerOptions & {
 }) => {
   const [marker, setMarker] = useState<google.maps.Marker>();
   const [infoWindow, setInfoWindow] = useState<google.maps.InfoWindow>(new google.maps.InfoWindow());
-  const [position, setPosition] = useState<{ lat: number; lng: number }>(() => {
+  const [position, setPosition] = useState<GoogleMapsProps>(() => {
     const pos = options.position;
     if (pos instanceof google.maps.LatLng) {
       return {
