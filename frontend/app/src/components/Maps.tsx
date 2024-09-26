@@ -1,11 +1,5 @@
 import React, { useState, useRef, useEffect, ReactElement } from "react";
-
-type MapProps = google.maps.MapOptions & {
-  className?: string;
-  style?: React.CSSProperties;
-  children?: React.ReactNode;
-  onClick?: (e: google.maps.MapMouseEvent) => void; // クリックイベントを追加
-};
+import { MapProps } from "../types/types";
 
 const Maps = ({ children, className, style, onClick, ...options }: MapProps) => {
   const ref = useRef<HTMLDivElement>(null);

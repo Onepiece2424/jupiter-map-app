@@ -26,3 +26,10 @@ export type GoogleMapsProps = {
   lat: number;
   lng: number;
 };
+
+export type MapProps = google.maps.MapOptions & {
+  className?: string;
+  style?: React.CSSProperties;
+  children?: React.ReactNode;
+  onClick?: (e: google.maps.MapMouseEvent) => void; // クリックイベントを追加
+};
