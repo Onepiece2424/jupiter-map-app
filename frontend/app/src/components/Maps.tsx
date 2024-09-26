@@ -13,10 +13,7 @@ const Maps = ({ children, className, style, onClick, ...options }: MapProps) => 
         zoom: options.zoom || 12.5,
       });
 
-      if (onClick) {
-        mapInstance.addListener("click", onClick); // クリックイベントをマップに追加
-      }
-
+      onClick && mapInstance.addListener("click", onClick); // クリックイベントをマップに追加
       setMap(mapInstance);
     }
   }, [ref, map, options.center, options.zoom, onClick]);
