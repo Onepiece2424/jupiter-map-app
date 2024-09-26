@@ -35,8 +35,31 @@ const Marker = (options: google.maps.MarkerOptions & {
     }
   };
 
-  const handleClose = () => {
-    infoWindow.close();
+  // 共通処理を関数として定義
+  const handleMarkerUpdate = async (
+    newPosition: { lat: number; lng: number },
+    marker: google.maps.Marker
+  ) => {
+    setPosition(newPosition);
+
+    // マーカーの位置を更新
+    marker.setPosition(newPosition);
+
+    // 住所を取得
+    const fetchedAddress = await fetchAddress(newPosition.lat, newPosition.lng);
+
+    // InfoWindowにレンダリング
+    const infoWindowDiv = document.createElement("div");
+    ReactDOM.render(
+      <InfoWindow
+        position={newPosition}
+        address={fetchedAddress}
+        onClose={handleClose}
+      />,
+      infoWindowDiv
+    );
+    infoWindow.setContent(infoWindowDiv);
+    infoWindow.open(options.map, marker);
   };
 
   useEffect(() => {
@@ -47,72 +70,31 @@ const Marker = (options: google.maps.MarkerOptions & {
       });
 
       // ドラッグ終了時のリスナー
-      newMarker.addListener("dragend", async (e: google.maps.MapMouseEvent) => {
+      newMarker.addListener("dragend", (e: google.maps.MapMouseEvent) => {
         const newPosition = {
           lat: e.latLng?.lat() || 0,
           lng: e.latLng?.lng() || 0,
         };
-        setPosition(newPosition);
-
-        // マーカーを新しい位置に設定
-        newMarker.setPosition(newPosition);
-
-        const fetchedAddress = await fetchAddress(newPosition.lat, newPosition.lng);
-
-        const infoWindowDiv = document.createElement("div");
-        ReactDOM.render(
-          <InfoWindow
-            position={newPosition}
-            address={fetchedAddress}
-            onClose={handleClose}
-          />,
-          infoWindowDiv
-        );
-        infoWindow.setContent(infoWindowDiv);
-        infoWindow.open(options.map, newMarker);
+        handleMarkerUpdate(newPosition, newMarker);
       });
 
       // マーカークリック時のリスナー
       newMarker.addListener("click", async () => {
-        const fetchedAddress = await fetchAddress(position.lat, position.lng);
-
-        const infoWindowDiv = document.createElement("div");
-        ReactDOM.render(
-          <InfoWindow
-            position={position}
-            address={fetchedAddress}
-            onClose={handleClose}
-          />,
-          infoWindowDiv
-        );
-        infoWindow.setContent(infoWindowDiv);
-        infoWindow.open(options.map, newMarker);
+        // 現在のマーカー位置を取得
+        const currentPosition = {
+          lat: newMarker.getPosition()?.lat() || 0,
+          lng: newMarker.getPosition()?.lng() || 0,
+        };
+        await handleMarkerUpdate(currentPosition, newMarker);
       });
 
       // マップクリック時のリスナー
-      options.map.addListener("click", async (e: google.maps.MapMouseEvent) => {
+      options.map.addListener("click", (e: google.maps.MapMouseEvent) => {
         const newPosition = {
           lat: e.latLng?.lat() || 0,
           lng: e.latLng?.lng() || 0,
         };
-        setPosition(newPosition);
-
-        // マーカーの位置を新しい位置に更新
-        newMarker.setPosition(newPosition);
-
-        const fetchedAddress = await fetchAddress(newPosition.lat, newPosition.lng);
-
-        const infoWindowDiv = document.createElement("div");
-        ReactDOM.render(
-          <InfoWindow
-            position={newPosition}
-            address={fetchedAddress}
-            onClose={handleClose}
-          />,
-          infoWindowDiv
-        );
-        infoWindow.setContent(infoWindowDiv);
-        infoWindow.open(options.map, newMarker);
+        handleMarkerUpdate(newPosition, newMarker);
       });
 
       setMarker(newMarker);
@@ -131,6 +113,10 @@ const Marker = (options: google.maps.MarkerOptions & {
       marker.setOptions(options);
     }
   }, [marker, options]);
+
+  const handleClose = () => {
+    infoWindow.close();
+  };
 
   return null;
 };
