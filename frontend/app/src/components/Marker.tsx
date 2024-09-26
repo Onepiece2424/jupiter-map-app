@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import ReactDOM from "react-dom";
-import { GoogleMapsProps } from "../types/types";
 import InfoWindow from "./InfoWindow";
 
 const Marker = (options: google.maps.MarkerOptions & {
@@ -11,19 +10,6 @@ const Marker = (options: google.maps.MarkerOptions & {
 }) => {
   const [marker, setMarker] = useState<google.maps.Marker>();
   const [infoWindow, setInfoWindow] = useState<google.maps.InfoWindow>(new google.maps.InfoWindow());
-  const [position, setPosition] = useState<GoogleMapsProps>(() => {
-    const pos = options.position;
-
-    if (!pos) {
-      return { lat: 0, lng: 0 };  // デフォルト値
-    }
-
-    // google.maps.LatLng かどうかに関係なく lat と lng を取得
-    const lat = pos instanceof google.maps.LatLng ? pos.lat() : pos.lat;
-    const lng = pos instanceof google.maps.LatLng ? pos.lng() : pos.lng;
-
-    return { lat, lng };
-  });
 
   const fetchAddress = async (lat: number, lng: number) => {
     try {
