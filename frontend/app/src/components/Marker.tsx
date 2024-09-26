@@ -13,18 +13,16 @@ const Marker = (options: google.maps.MarkerOptions & {
   const [infoWindow, setInfoWindow] = useState<google.maps.InfoWindow>(new google.maps.InfoWindow());
   const [position, setPosition] = useState<GoogleMapsProps>(() => {
     const pos = options.position;
-    if (pos instanceof google.maps.LatLng) {
-      return {
-        lat: pos.lat(),
-        lng: pos.lng(),
-      };
-    } else if (pos) {
-      return {
-        lat: pos.lat,
-        lng: pos.lng,
-      };
+
+    if (!pos) {
+      return { lat: 0, lng: 0 };  // デフォルト値
     }
-    return { lat: 0, lng: 0 };
+
+    // google.maps.LatLng かどうかに関係なく lat と lng を取得
+    const lat = pos instanceof google.maps.LatLng ? pos.lat() : pos.lat;
+    const lng = pos instanceof google.maps.LatLng ? pos.lng() : pos.lng;
+
+    return { lat, lng };
   });
 
   const fetchAddress = async (lat: number, lng: number) => {
