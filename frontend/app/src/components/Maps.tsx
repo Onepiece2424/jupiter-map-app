@@ -23,9 +23,7 @@ const Maps = ({ children, className, style, onClick, ...options }: MapProps) => 
 
   // 地図の中心位置の更新
   useEffect(() => {
-    if (map && options.center) {
-      map.setCenter(options.center);
-    }
+    map && options.center && map.setCenter(options.center);
   }, [map, options.center]);
 
   return (
