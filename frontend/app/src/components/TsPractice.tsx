@@ -29,6 +29,14 @@ const TsPractice = () => {
   const { x, y } = obj1; // ここでは分割代入だけを行う
   console.log(x, y);  // => 10 "hello"
 
+  // ネストされた配列に対して、値はそのままで、名前を変更して取得
+  const obj2 = {
+    gender: "女性",
+    arr: [ 1, 2, 3 ]
+  }
+
+  const { arr: [foo] } = obj2;
+  console.log(foo);
 
   return (
     <div>TsPractice</div>
