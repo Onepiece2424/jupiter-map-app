@@ -1,4 +1,4 @@
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import InfoWindow from "../components/InfoWindow";
 import { googleMapFetchAddress } from "../api/googlemap";
 
@@ -16,14 +16,16 @@ export const handleMarkerUpdate = async (
 
   // InfoWindowにレンダリング
   const infoWindowDiv = document.createElement("div");
-  ReactDOM.render(
+  const root = createRoot(infoWindowDiv);
+
+  root.render(
     <InfoWindow
       position={newPosition}
       address={fetchedAddress}
       onClose={() => infoWindow.close()}
-    />,
-    infoWindowDiv
+    />
   );
+
   infoWindow.setContent(infoWindowDiv);
   infoWindow.open(map, marker);
 };
