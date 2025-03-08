@@ -1,33 +1,11 @@
-import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useAuthRedirect from '../../hooks/login/logout';
 
-type AuthParams = {
-  accessToken: string | null;
-  client: string | null;
-  uid: string | null;
-};
-
 const Header = () => {
   const navigate = useNavigate();
-  const [params, setParams] = useState<AuthParams>({
-    accessToken: null,
-    client: null,
-    uid: null
-  });
-
   useAuthRedirect(); // ログアウト状態の時、トップへリダイレクトする
-
-  useEffect(() => {
-    const requireLoginParams: AuthParams = {
-      accessToken: localStorage.getItem('access-token'),
-      client: localStorage.getItem('client'),
-      uid: localStorage.getItem('uid')
-    };
-    setParams(requireLoginParams);
-  }, []);
 
   const logout = async () => {
     const headers = {
@@ -48,7 +26,7 @@ const Header = () => {
   return (
     <HeaderWrapper>
       <h1>Jupiter Map</h1>
-      {localStorage.getItem("access-token") && <button onClick={logout}>ログアウト</button>}
+      {localStorage.getItem("access-token") && <button className="logout-button" onClick={logout}>ログアウト</button>}
     </HeaderWrapper>
   );
 };
@@ -60,6 +38,10 @@ const HeaderWrapper = styled.header`
   padding: 5px 10px;
   background-color: #333;
   color: white;
+
+  .logout-button {
+    margin: 0 20px;
+  }
 `;
 
 export default Header;
