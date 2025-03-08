@@ -4,6 +4,7 @@ import { RecoilRoot } from 'recoil';
 import GoogleMaps from './components/GoogleMaps';
 import UserData from './components/UserData';
 import LoginForm from './components/LoginForm';
+import ExpensiveComponent from './components/ExpensiveComponent';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <Route path="/users" element={<UserData />} />
             <Route path="/" element={<GoogleMaps />} />
             <Route path="/login" element={<LoginForm />} />
+            <Route path="/expensive" element={<ExpensiveComponent />} />
           </Routes>
         </div>
       </BrowserRouter>
