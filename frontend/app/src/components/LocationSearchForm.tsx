@@ -1,5 +1,6 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import axios from 'axios';
+import styled from 'styled-components';
 
 // フォームデータの型定義
 interface FormData {
@@ -32,12 +33,19 @@ const LocationSearchForm = ({ setLat, setLng }: LocationSearchFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <label htmlFor="placeName">地名を入力</label>
-      <input id="placeName" {...register('placeName')} />
+    <FormWrapper onSubmit={handleSubmit(onSubmit)}>
+      <input className="placeName" {...register('placeName')} placeholder="地名を入力してください" />
       <button type="submit">検索</button>
-    </form>
+    </FormWrapper>
   )
 }
+
+const FormWrapper = styled.form`
+  .placeName {
+    font-weight: bold;
+    width: 180px;
+    margin: 0 10px;
+  }
+`
 
 export default LocationSearchForm
