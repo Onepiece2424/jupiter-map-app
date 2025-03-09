@@ -20,7 +20,7 @@ Bundler/OrderedGems:
 # SupportedStyles: with_first_argument, with_fixed_indentation
 Layout/ArgumentAlignment:
   Exclude:
-    - 'app/models/user.rb'
+    # - 'app/models/user.rb'
     - 'config/initializers/cors.rb'
 
 # Offense count: 6
