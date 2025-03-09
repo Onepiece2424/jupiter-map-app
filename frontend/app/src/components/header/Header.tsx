@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import useAuthRedirect from '../../hooks/login/logout';
 import { headers } from '../../api/client';
 import { Button } from '@mui/material';
@@ -21,7 +21,9 @@ const Header = () => {
 
   return (
     <HeaderWrapper>
-      <h1>Jupiter Map</h1>
+      <TextLinkWrapper to="/">
+        <h1>Jupiter Map</h1>
+      </TextLinkWrapper>
       {localStorage.getItem("access-token") &&
         <Button variant="outlined" className="logout-button" onClick={logout}>ログアウト</Button>}
     </HeaderWrapper>
@@ -42,5 +44,10 @@ const HeaderWrapper = styled.header`
     font-weight: bold;
   }
 `;
+
+const TextLinkWrapper = styled(Link)`
+  text-decoration: none;
+  color: white;
+`
 
 export default Header;
