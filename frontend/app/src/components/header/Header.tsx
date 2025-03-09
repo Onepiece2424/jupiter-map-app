@@ -2,18 +2,13 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useAuthRedirect from '../../hooks/login/logout';
+import { headers } from '../../api/client';
 
 const Header = () => {
   const navigate = useNavigate();
   useAuthRedirect(); // ログアウト状態の時、トップへリダイレクトする
 
   const logout = async () => {
-    const headers = {
-      "access-token": localStorage.getItem("access-token"),
-      "client": localStorage.getItem("client"),
-      "uid": localStorage.getItem("uid"),
-    };
-
     await axios.delete('http://localhost:3000/auth/sign_out', { headers }
     ).then(() => {
       navigate('/login')
