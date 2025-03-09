@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useAuthRedirect from '../../hooks/login/logout';
 import { headers } from '../../api/client';
+import { Button } from '@mui/material';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -21,7 +22,8 @@ const Header = () => {
   return (
     <HeaderWrapper>
       <h1>Jupiter Map</h1>
-      {localStorage.getItem("access-token") && <button className="logout-button" onClick={logout}>ログアウト</button>}
+      {localStorage.getItem("access-token") &&
+        <Button variant="outlined" className="logout-button" onClick={logout}>ログアウト</Button>}
     </HeaderWrapper>
   );
 };
@@ -36,6 +38,8 @@ const HeaderWrapper = styled.header`
 
   .logout-button {
     margin: 0 20px;
+    background-color: white;
+    font-weight: bold;
   }
 `;
 

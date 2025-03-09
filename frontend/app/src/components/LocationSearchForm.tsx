@@ -1,5 +1,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import axios from 'axios';
+import styled from 'styled-components';
+import { headers } from '../api/client';
 
 // フォームデータの型定義
 interface FormData {
@@ -19,10 +21,7 @@ const LocationSearchForm = ({ setLat, setLng }: LocationSearchFormProps) => {
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      const response = await axios.get(`http://localhost:3000/search_location`, {
-        params: { place_name: data.placeName }
-      });
-
+      const response = await axios.get(`http://localhost:3000/search_location?place_name=${data.placeName}`, { headers });
       const { lat, lng } = response.data;
       setLat(lat);
       setLng(lng);
@@ -32,12 +31,19 @@ const LocationSearchForm = ({ setLat, setLng }: LocationSearchFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <label htmlFor="placeName">地名を入力</label>
-      <input id="placeName" {...register('placeName')} />
+    <FormWrapper onSubmit={handleSubmit(onSubmit)}>
+      <input className="placeName" {...register('placeName')} placeholder="地名を入力してください" />
       <button type="submit">検索</button>
-    </form>
+    </FormWrapper>
   )
 }
+
+const FormWrapper = styled.form`
+  .placeName {
+    font-weight: bold;
+    width: 180px;
+    margin: 0 10px;
+  }
+`
 
 export default LocationSearchForm
