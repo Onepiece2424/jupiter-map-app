@@ -21,7 +21,7 @@ Bundler/OrderedGems:
 Layout/ArgumentAlignment:
   Exclude:
     # - 'app/models/user.rb'
-    - 'config/initializers/cors.rb'
+    # - 'config/initializers/cors.rb'
 
 # Offense count: 6
 # This cop supports safe autocorrection (--autocorrect).
