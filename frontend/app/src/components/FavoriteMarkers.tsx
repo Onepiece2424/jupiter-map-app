@@ -25,7 +25,8 @@ const FavoriteMarkers = (options: CustomMarkerOptions) => {
 
     // 情報ウィンドウを作成
     const infoWindow = new google.maps.InfoWindow({
-      content: infoWindowDiv
+      headerContent: `${options.position.place_name}`,
+      content: `<a href="/favorite_places/${options.position.id}">詳細はこちらへ</a>`
     });
 
     // マーカーを作成
