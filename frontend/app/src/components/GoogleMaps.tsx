@@ -37,7 +37,7 @@ const GoogleMaps = () => {
     } catch (error) {
       console.error('Error fetching favorite places:', error);
     }
-  }, []);
+  }, [setFavoritePlaces]);
 
   useEffect(() => {
     fetchFavoritePlaces(); // fetchFavoritePlaces関数を呼び出す
