@@ -9,13 +9,13 @@ import LocationSearchForm from './LocationSearchForm';
 import { headers } from '../api/client';
 import { GoogleMapsProps } from '../types/types';
 import FavoriteMarkers from './FavoriteMarkers';
-import { API_BASE_URL } from '../constants';
+import { API_BASE_URL, GOOGLE_MAP_API_KEY } from '../constants';
 
 const GoogleMaps = () => {
   const [lat, setLat] = useState<number>(35.7140371);
   const [lng, setLng] = useState<number>(139.7925173);
   const [favoritePlaces, setFavoritePlaces] = useRecoilState(favoritePlacesState);
-  const apiKey = process.env.REACT_APP_GOOGLE_MAP_API_KEY as string;
+    const apiKey = GOOGLE_MAP_API_KEY as string;
   const position: GoogleMapsProps = { lat, lng };
 
   const render = (status: Status) => {
