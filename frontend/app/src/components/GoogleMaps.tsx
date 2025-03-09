@@ -6,7 +6,7 @@ import { favoritePlacesState } from '../atoms/marker';
 import Maps from './Maps';
 import Marker from './Marker';
 import LocationSearchForm from './LocationSearchForm';
-import { getAuthHeaders } from '../utils';
+import { headers } from '../api/client';
 import { GoogleMapsProps } from '../types/types';
 import FavoriteMarkers from './FavoriteMarkers';
 
@@ -31,7 +31,6 @@ const GoogleMaps = () => {
   // お気に入りの場所を取得する関数をuseCallbackでメモ化
   const fetchFavoritePlaces = useCallback(async () => {
     try {
-      const headers = getAuthHeaders();
       const response = await axios.get('http://localhost:3000/favorite_places', { headers });
       setFavoritePlaces(response.data);
     } catch (error) {

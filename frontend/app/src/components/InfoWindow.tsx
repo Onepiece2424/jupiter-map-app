@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getAuthHeaders } from "../utils";
+import { headers } from "../api/client";
 import { InfoWindowProps } from "../types/types";
 import styled from "styled-components";
 
@@ -15,8 +15,7 @@ const InfoWindow = ({ position, address, onClose }: InfoWindowProps) => {
   const createFavoritePlace = async (lat: number, lng: number, country: string, postcode: string, city: string) => {
 
     try {
-      const headers = getAuthHeaders();
-      const response = await axios.post(
+      await axios.post(
         'http://localhost:3000/favorite_places',
         {
           lat: lat,
@@ -27,7 +26,6 @@ const InfoWindow = ({ position, address, onClose }: InfoWindowProps) => {
         },
         { headers }
       );
-      console.log(response.data); // レスポンスデータを表示
       onClose()
     } catch (error) {
       console.error('Error creating favorite place:', error);
