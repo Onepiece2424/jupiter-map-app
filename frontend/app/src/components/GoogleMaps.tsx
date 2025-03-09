@@ -9,7 +9,6 @@ import LocationSearchForm from './LocationSearchForm';
 import { getAuthHeaders } from '../utils';
 import { GoogleMapsProps } from '../types/types';
 import FavoriteMarkers from './FavoriteMarkers';
-import TsPractice from './TsPractice';
 
 const GoogleMaps = () => {
   const [lat, setLat] = useState<number>(35.7140371);
@@ -62,7 +61,6 @@ const GoogleMaps = () => {
           ))}
         </Maps>
       </div>
-      <TsPractice />
     </Wrapper>
   );
 }

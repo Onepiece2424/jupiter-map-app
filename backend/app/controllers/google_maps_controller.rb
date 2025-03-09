@@ -1,4 +1,6 @@
 class GoogleMapsController < ApplicationController
+  before_action :authenticate_user!
+
   def search_location
     results = Geocoder.search(params[:place_name])
     if results.present?

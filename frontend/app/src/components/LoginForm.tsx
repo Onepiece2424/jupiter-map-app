@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { FormData } from '../types/types';
@@ -34,6 +35,10 @@ const LoginForm = () => {
     localStorage.setItem('client', client);
     localStorage.setItem('uid', uid);
   };
+
+  useEffect(() => {
+    localStorage.getItem('access-token') && navigate('/'); // ログイン状態の時、トップへ
+  }, [])
 
   return (
     <div>
