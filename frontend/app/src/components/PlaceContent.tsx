@@ -1,10 +1,10 @@
 import { Button } from "@mui/material"
 import styled from "styled-components"
 
-const PlaceContent = ({ placeName }: { placeName: string }) => {
+const PlaceContent = ({ position }: { position: { place_name: string } }) => {
   return (
     <MainWrapper>
-      <p>{placeName}</p>
+      <p>{position.place_name}</p>
       <Button variant="outlined">詳細を見る</Button>
     </MainWrapper>
   )
