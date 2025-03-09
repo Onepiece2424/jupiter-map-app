@@ -3,9 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import Header from './components/header/Header';
 import GoogleMaps from './components/GoogleMaps';
-import UserData from './components/UserData';
 import LoginForm from './components/LoginForm';
-import ExpensiveComponent from './components/ExpensiveComponent';
+import PlaceDetail from './components/places/PlaceDetail';
 
 function App() {
   return (
@@ -14,10 +13,9 @@ function App() {
         <div className="App">
           <Header />
           <Routes>
-            <Route path="/users" element={<UserData />} />
             <Route path="/" element={<GoogleMaps />} />
             <Route path="/login" element={<LoginForm />} />
-            <Route path="/expensive" element={<ExpensiveComponent />} />
+            <Route path="/favorite_places/:id" element={<PlaceDetail />} />
           </Routes>
         </div>
       </BrowserRouter>

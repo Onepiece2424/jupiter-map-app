@@ -1,11 +1,15 @@
 import { Button } from "@mui/material"
 import styled from "styled-components"
 
-const PlaceContent = ({ position }: { position: { place_name: string } }) => {
+const PlaceContent = ({ position }: { position: { id: number, place_name: string } }) => {
+  const handleClick = () => {
+    window.location.href = `/favorite_places/${position.id}`;
+  };
+
   return (
     <MainWrapper>
       <p>{position.place_name}</p>
-      <Button variant="outlined">詳細を見る</Button>
+      <Button onClick={handleClick} variant="outlined">詳細を見る</Button>
     </MainWrapper>
   )
 }

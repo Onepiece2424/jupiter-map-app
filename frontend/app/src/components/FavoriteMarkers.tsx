@@ -4,6 +4,7 @@ import PlaceContent from "./PlaceContent";
 
 type CustomMarkerOptions = google.maps.MarkerOptions & {
   position: {
+    id: number;
     lat: number;
     lng: number;
     place_name: string;
