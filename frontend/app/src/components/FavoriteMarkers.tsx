@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import ReactDOMServer from 'react-dom/server';
+import PlaceContent from "./PlaceContent";
 
 type CustomMarkerOptions = google.maps.MarkerOptions & {
   position: {
@@ -23,9 +25,8 @@ const FavoriteMarkers = (options: CustomMarkerOptions) => {
 
     // 情報ウィンドウを作成
     const infoWindow = new google.maps.InfoWindow({
-      content: `<div>
-                 ${options.position.place_name}
-                </div>`,
+      content: ReactDOMServer.renderToString(
+               <PlaceContent placeName={options.position.place_name} />),
     });
 
     // クリック時にウィンドウを開く
