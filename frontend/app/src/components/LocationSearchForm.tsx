@@ -1,6 +1,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import axios from 'axios';
 import styled from 'styled-components';
+import { headers } from '../api/client';
 
 // フォームデータの型定義
 interface FormData {
@@ -20,10 +21,7 @@ const LocationSearchForm = ({ setLat, setLng }: LocationSearchFormProps) => {
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      const response = await axios.get(`http://localhost:3000/search_location`, {
-        params: { place_name: data.placeName }
-      });
-
+      const response = await axios.get(`http://localhost:3000/search_location?place_name=${data.placeName}`, { headers });
       const { lat, lng } = response.data;
       setLat(lat);
       setLng(lng);
