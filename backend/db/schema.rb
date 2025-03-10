@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_10_054847) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_10_121841) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -51,6 +51,10 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_10_054847) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "city"
+    t.string "suburb"
+    t.string "neighbourhood"
+    t.string "road"
     t.index ["user_id"], name: "index_favorite_places_on_user_id"
   end
 
