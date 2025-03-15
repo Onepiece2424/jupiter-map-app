@@ -6,15 +6,16 @@ import { favoritePlacesState } from '../atoms/marker';
 import Maps from './Maps';
 import Marker from './Marker';
 import LocationSearchForm from './LocationSearchForm';
-import { getAuthHeaders } from '../utils';
+import { headers } from '../api/client';
 import { GoogleMapsProps } from '../types/types';
 import FavoriteMarkers from './FavoriteMarkers';
+import { API_BASE_URL, GOOGLE_MAP_API_KEY } from '../constants';
 
 const GoogleMaps = () => {
   const [lat, setLat] = useState<number>(35.7140371);
   const [lng, setLng] = useState<number>(139.7925173);
   const [favoritePlaces, setFavoritePlaces] = useRecoilState(favoritePlacesState);
-  const apiKey = process.env.REACT_APP_GOOGLE_MAP_API_KEY as string;
+    const apiKey = GOOGLE_MAP_API_KEY as string;
   const position: GoogleMapsProps = { lat, lng };
 
   const render = (status: Status) => {
@@ -31,13 +32,12 @@ const GoogleMaps = () => {
   // お気に入りの場所を取得する関数をuseCallbackでメモ化
   const fetchFavoritePlaces = useCallback(async () => {
     try {
-      const headers = getAuthHeaders();
-      const response = await axios.get('http://localhost:3000/favorite_places', { headers });
+      const response = await axios.get(API_BASE_URL + '/favorite_places', { headers });
       setFavoritePlaces(response.data);
     } catch (error) {
       console.error('Error fetching favorite places:', error);
     }
-  }, []);
+  }, [setFavoritePlaces]);
 
   useEffect(() => {
     fetchFavoritePlaces(); // fetchFavoritePlaces関数を呼び出す
