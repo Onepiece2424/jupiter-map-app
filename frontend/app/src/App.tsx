@@ -5,6 +5,7 @@ import Header from './components/header/Header';
 import GoogleMaps from './components/GoogleMaps';
 import LoginForm from './components/LoginForm';
 import PlaceDetail from './components/places/PlaceDetail';
+import PlaceEdit from './components/places/PlaceEdit';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route path="/" element={<GoogleMaps />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/favorite_places/:id" element={<PlaceDetail />} />
+            <Route path="/favorite_places/:id/edit" element={<PlaceEdit />} />
           </Routes>
         </div>
       </BrowserRouter>
