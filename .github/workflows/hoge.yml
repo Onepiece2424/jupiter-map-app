@@ -6,6 +6,11 @@ jobs:
   echo_hello:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Nice to meet you!!"
-      - run: echo "My Name is Taro!!"
-      - run: echo "I love programming!!"
+      - name: "挨拶"
+        run: echo "Nice to meet you!!"
+
+      - name: "名前を言う"
+        run: echo "My Name is Taro!!"
+
+      - name: "趣味を話す"
+        run: echo "I love programming!!"
