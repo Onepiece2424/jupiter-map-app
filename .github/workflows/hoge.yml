@@ -14,3 +14,9 @@ jobs:
 
       - name: "趣味を話す"
         run: echo "I love programming!!"
+
+  echo_goodbye:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "別れの挨拶をする"
+        run: echo "Good Bye!!"
