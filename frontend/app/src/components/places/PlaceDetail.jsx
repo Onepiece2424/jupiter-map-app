@@ -5,6 +5,7 @@ import PlaceImg from './PlaceImg'
 import PlaceDescription from './PlaceDescription'
 import { fetchFavoritePlaceDetail } from '../../api/favoritePlace'
 import { Button } from '@mui/material'
+import NoImage from '../../assets/no_image.png'
 
 const PlaceDetail = () => {
   const { id } = useParams();
@@ -31,7 +32,7 @@ const PlaceDetail = () => {
   return (
     <>
       <ContentWrapper>
-        <PlaceImg url={place?.image_url} />
+        <PlaceImg url={place?.image_url ? place.image_url : NoImage} />
         <PlaceDescription
           placeName={place?.place_name}
           postcode={place?.postcode}
