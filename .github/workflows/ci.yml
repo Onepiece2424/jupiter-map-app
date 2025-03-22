@@ -3,8 +3,8 @@ name: CI
 on: [push]
 
 jobs:
-  rubocop:
-    name: Run RuboCop
+  setup:
+    name: Set up Environment
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -13,14 +13,19 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.1.3  # プロジェクトのRubyバージョンに合わせて変更
+          ruby-version: 3.1.3
           bundler-cache: true
 
-      - name: Create .env file
-        run: echo "REACT_APP_GOOGLE_MAP_API_KEY=${{ secrets.REACT_APP_GOOGLE_MAP_API_KEY }}" > frontend/.env
-
-      - name: Set up Docker
+      - name: Start Docker services
         run: docker compose up -d
+
+  rubocop:
+    name: Run RuboCop
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Run RuboCop inside Docker
         run: docker compose exec -T api bundle exec rubocop
@@ -28,6 +33,7 @@ jobs:
   rspec:
     name: Run RSpec
     runs-on: ubuntu-latest
+    needs: setup
     services:
       postgres:
         image: postgres:15
@@ -43,15 +49,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.1.3
-          bundler-cache: true
-
-      - name: Set up Docker
-        run: docker compose up -d
 
       - name: Set up database
         run: |
