@@ -41,39 +41,96 @@ const LoginForm = () => {
   }, [])
 
   return (
-    <div>
-      <h2>ログインフォーム</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <StyledWrapper>
-          <label>Email</label>
-          <input
-            type="email"
-            {...register('email', { required: 'メールアドレスは必須です' })}
-            placeholder='email'
-          />
-          {errors.email && <p style={{ color: 'red' }}>{errors.email.message}</p>}
-        </StyledWrapper>
-        <StyledWrapper>
-          <label>Password</label>
-          <input
-            type="password"
-            {...register('password', { required: 'パスワードは必須です' })}
-            placeholder='password'
-          />
-          {errors.password && <p style={{ color: 'red' }}>{errors.password.message}</p>}
-        </StyledWrapper>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit">ログイン</button>
-      </form>
-    </div>
+    <StyledContainer>
+      <StyledCard>
+        <h2>ログイン</h2>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <StyledWrapper>
+            <label>Email</label>
+            <StyledInput
+              type="email"
+              {...register('email', { required: 'メールアドレスは必須です' })}
+              placeholder="email"
+            />
+            {errors.email && <StyledError>{errors.email.message}</StyledError>}
+          </StyledWrapper>
+          <StyledWrapper>
+            <label>Password</label>
+            <StyledInput
+              type="password"
+              {...register('password', { required: 'パスワードは必須です' })}
+              placeholder="password"
+            />
+            {errors.password && <StyledError>{errors.password.message}</StyledError>}
+          </StyledWrapper>
+          {error && <StyledError>{error}</StyledError>}
+          <StyledButton type="submit">ログイン</StyledButton>
+        </form>
+      </StyledCard>
+    </StyledContainer>
   );
 };
 
+const StyledContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  background: linear-gradient(to right, #74ebd5, #acb6e5);
+`;
+
+const StyledCard = styled.div`
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 320px;
+`;
+
 const StyledWrapper = styled.div`
-  margin: 10px 0;
+  margin: 15px 0;
+  text-align: left;
   label {
-    margin: 0 10px;
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
   }
-`
+`;
+
+const StyledInput = styled.input`
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: 0.3s;
+  &:focus {
+    border-color: #74ebd5;
+    outline: none;
+    box-shadow: 0 0 5px rgba(116, 235, 213, 0.5);
+  }
+`;
+
+const StyledError = styled.p`
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+`;
+
+const StyledButton = styled.button`
+  width: 100%;
+  padding: 10px;
+  background: #74ebd5;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  &:hover {
+    background: #5ac0b1;
+  }
+`;
 
 export default LoginForm;

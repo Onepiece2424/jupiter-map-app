@@ -10,10 +10,8 @@ const Header = () => {
   useAuthRedirect(); // ログアウト状態の時、トップへリダイレクトする
 
   const logout = async () => {
-    await axios.delete('http://localhost:3000/auth/sign_out', { headers }
-    ).then(() => {
-      navigate('/login')
-    });
+    await axios.delete('http://localhost:3000/auth/sign_out', { headers })
+    navigate('/login');
     localStorage.removeItem('access-token');
     localStorage.removeItem('client');
     localStorage.removeItem('uid');
