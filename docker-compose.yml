@@ -1,12 +1,12 @@
-version: "3.8"
 services:
   db:
     image: postgres
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
     environment:
-      - POSTGRES_HOST_AUTH_METHOD=trust
-      - POSTGRES_PASSWORD=admin
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: backend_test
     ports:
       - "15432:5432"
   api:
@@ -27,12 +27,10 @@ services:
     build:
       context: ./frontend/
       dockerfile: Dockerfile
-    # environment:
-    #     REACT_APP_GOOGLE_MAP_API_KEY: ${REACT_APP_GOOGLE_MAP_API_KEY}
+    environment:
+        REACT_APP_GOOGLE_MAP_API_KEY: ${REACT_APP_GOOGLE_MAP_API_KEY}
     volumes:
       - ./frontend:/frontend
     command: sh -c "cd app &&PORT=3001 yarn start"
     ports:
       - "3001:3001"
-    env_file:
-      - ./frontend/.env
