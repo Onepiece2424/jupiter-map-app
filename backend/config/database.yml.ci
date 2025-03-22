@@ -1,8 +1,15 @@
-test:
+default: &default
   adapter: postgresql
   encoding: unicode
-  database: backend_test
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: postgres
-  password: password
-  host: 127.0.0.1
-  pool: 5
+  password: postgres
+  host: db
+
+development:
+  <<: *default
+  database: backend_development
+
+test:
+  <<: *default
+  database: backend_test
