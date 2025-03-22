@@ -99,7 +99,7 @@ const StyledWrapper = styled.div`
 `;
 
 const StyledInput = styled.input`
-  width: 100%;
+  width: 300px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
