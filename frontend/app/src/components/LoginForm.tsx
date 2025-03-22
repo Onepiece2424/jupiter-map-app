@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { FormData } from '../types/types';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_BASE_URL } from '../constants';
+import saveAuthHeaders from '../hooks/saveHeader';
 import styled from "styled-components"
 
 const LoginForm = () => {
@@ -14,7 +16,7 @@ const LoginForm = () => {
   const onSubmit = async (data: FormData) => {
     const { email, password } = data;
     try {
-      const response = await axios.post('http://localhost:3000/auth/sign_in', {
+      const response = await axios.post(`${API_BASE_URL}auth/sign_in`, {
         email,
         password,
       });
@@ -24,16 +26,6 @@ const LoginForm = () => {
     } catch (err) {
       setError('ログインに失敗しました')
     }
-  };
-
-  const saveAuthHeaders = (headers: any) => {
-    const accessToken = headers['access-token'] || '';
-    const client = headers['client'] || '';
-    const uid = headers['uid'] || '';
-
-    localStorage.setItem('access-token', accessToken);
-    localStorage.setItem('client', client);
-    localStorage.setItem('uid', uid);
   };
 
   useEffect(() => {
