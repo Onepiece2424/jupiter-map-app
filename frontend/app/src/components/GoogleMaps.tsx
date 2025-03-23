@@ -29,19 +29,21 @@ const GoogleMaps = () => {
     }
   };
 
-  // お気に入りの場所を取得する関数をuseCallbackでメモ化
-  const fetchFavoritePlaces = useCallback(async () => {
-    try {
-      const response = await axios.get(`${API_BASE_URL}favorite_places`, { headers });
-      setFavoritePlaces(response.data);
-    } catch (error) {
-      console.error('Error fetching favorite places:', error);
+  // お気に入りの場所のデータを取得
+  useEffect(() => {
+    const fetchFavoritePlaces = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}favorite_places`, { headers });
+        setFavoritePlaces(response.data);
+      } catch (error) {
+        console.error('Error fetching favorite places:', error);
+      }
+    };
+
+    if (headers) {
+       fetchFavoritePlaces(); // fetchFavoritePlaces関数を呼び出す
     }
   }, [setFavoritePlaces]);
-
-  useEffect(() => {
-    fetchFavoritePlaces(); // fetchFavoritePlaces関数を呼び出す
-  }, [fetchFavoritePlaces]);
 
   return (
     <Wrapper apiKey={apiKey} render={render}>
