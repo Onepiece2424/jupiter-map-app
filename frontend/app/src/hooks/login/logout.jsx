@@ -8,7 +8,7 @@ const useAuthRedirect = () => {
     if (!localStorage.getItem("access-token")) {
       navigate("/login");
     }
-  }, []);
+  }, [navigate]);
 
 };
 
