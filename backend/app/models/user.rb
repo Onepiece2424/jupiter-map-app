@@ -5,4 +5,7 @@ class User < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
 
   has_many :favorite_places
+
+  validates :lastname, presence: true
+  validates :firstname, presence: true
 end
