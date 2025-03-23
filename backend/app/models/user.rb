@@ -8,4 +8,6 @@ class User < ApplicationRecord
 
   validates :lastname, presence: true
   validates :firstname, presence: true
+
+  enum gender: { male: 1, female: 2, other: 3 }
 end

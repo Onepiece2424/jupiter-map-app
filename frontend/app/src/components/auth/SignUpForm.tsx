@@ -25,7 +25,7 @@ const SignUpForm = () => {
       lastname: data.lastName,
       firstname: data.firstName,
       age: data.age,
-      gender: 1, // 後でenumなどを使用し、性別管理を数値でできるようにしてから修正予定
+      gender: data.gender, // 後でenumなどを使用し、性別管理を数値でできるようにしてから修正予定
       email: data.email,
       password: data.password
     }
@@ -72,12 +72,12 @@ const SignUpForm = () => {
               <InputLabel>性別</InputLabel>
               <Select
                 {...register("gender", { required: "性別を選択してください" })}
-                defaultValue=""
+                defaultValue={0}
               >
-                <MenuItem value="">選択してください</MenuItem>
-                <MenuItem value="male">男性</MenuItem>
-                <MenuItem value="female">女性</MenuItem>
-                <MenuItem value="other">その他</MenuItem>
+                <MenuItem value={0}>選択してください</MenuItem>
+                <MenuItem value={1}>男性</MenuItem>
+                <MenuItem value={2}>女性</MenuItem>
+                <MenuItem value={3}>その他</MenuItem>
               </Select>
             </FormControl>
             <TextField
