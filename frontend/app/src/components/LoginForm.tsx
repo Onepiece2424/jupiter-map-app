@@ -30,7 +30,7 @@ const LoginForm = () => {
 
   useEffect(() => {
     localStorage.getItem('access-token') && navigate('/'); // ログイン状態の時、トップへ
-  }, [])
+  }, [navigate])
 
   return (
     <StyledContainer>
