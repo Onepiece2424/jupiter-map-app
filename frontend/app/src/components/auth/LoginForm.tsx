@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import { FormData } from '../types/types';
-import { useNavigate } from 'react-router-dom';
+import { FormData } from '../../types/types';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import { API_BASE_URL } from '../constants';
-import saveAuthHeaders from '../hooks/saveHeader';
+import { API_BASE_URL } from '../../constants';
+import saveAuthHeaders from '../../hooks/saveHeader';
 import styled from "styled-components"
 
 const LoginForm = () => {
@@ -58,6 +58,9 @@ const LoginForm = () => {
           {error && <StyledError>{error}</StyledError>}
           <StyledButton type="submit">ログイン</StyledButton>
         </form>
+        <div className='sign-up-form'>
+          <Link to='/sign_up'>ユーザー新規登録</Link>
+        </div>
       </StyledCard>
     </StyledContainer>
   );
@@ -78,6 +81,10 @@ const StyledCard = styled.div`
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
   width: 320px;
+
+  .sign-up-form {
+    margin: 10px 0;
+  }
 `;
 
 const StyledWrapper = styled.div`
