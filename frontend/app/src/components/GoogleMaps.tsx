@@ -40,7 +40,7 @@ const GoogleMaps = () => {
       }
     };
 
-    if (headers) {
+    if (headers.uid) {
        fetchFavoritePlaces(); // fetchFavoritePlaces関数を呼び出す
     }
   }, [setFavoritePlaces]);
