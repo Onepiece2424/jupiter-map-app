@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
