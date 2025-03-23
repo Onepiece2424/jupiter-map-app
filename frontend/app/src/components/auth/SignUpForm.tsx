@@ -1,6 +1,10 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Select, MenuItem, InputLabel, FormControl, Container, Paper, Typography, Stack } from "@mui/material";
+import axios from 'axios';
+import { API_BASE_URL } from '../../constants';
+import saveAuthHeaders from '../../hooks/saveHeader';
 
 type FormData = {
   lastName: string;
@@ -12,11 +16,26 @@ type FormData = {
 };
 
 const SignUpForm = () => {
+  const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
   const [message, setMessage] = useState("");
 
-  const onSubmit = async (data: FormData) => {
-    console.log(data);
+  const resisterNewUser = async (data: FormData) => {
+    const params = {
+      lastname: data.lastName,
+      firstname: data.firstName,
+      age: data.age,
+      gender: 1, // 後でenumなどを使用し、性別管理を数値でできるようにしてから修正予定
+      email: data.email,
+      password: data.password
+    }
+    try {
+      const response = await axios.post(`${API_BASE_URL}auth`, params);
+      saveAuthHeaders(response.headers);
+      navigate('/');
+    } catch (err) {
+      setMessage('ログインに失敗しました')
+    }
   };
 
   return (
@@ -25,7 +44,7 @@ const SignUpForm = () => {
         <Typography variant="h5" gutterBottom>
           新規会員登録
         </Typography>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(resisterNewUser)}>
           <Stack spacing={2}>
             <TextField
               label="姓"
