@@ -32,7 +32,7 @@ const GoogleMaps = () => {
   // お気に入りの場所を取得する関数をuseCallbackでメモ化
   const fetchFavoritePlaces = useCallback(async () => {
     try {
-      const response = await axios.get(API_BASE_URL + '/favorite_places', { headers });
+      const response = await axios.get(`${API_BASE_URL}favorite_places`, { headers });
       setFavoritePlaces(response.data);
     } catch (error) {
       console.error('Error fetching favorite places:', error);
