@@ -27,7 +27,7 @@ const Marker = (options: google.maps.MarkerOptions & {
         marker.setMap(null);
       }
     };
-  }, [marker, options.map]);
+  }, [marker, options, infoWindow]);
 
   useEffect(() => {
     if (marker && options.map) {
