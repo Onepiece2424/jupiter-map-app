@@ -5,15 +5,7 @@ import { TextField, Button, Select, MenuItem, InputLabel, FormControl, Container
 import axios from 'axios';
 import { API_BASE_URL } from '../../constants';
 import saveAuthHeaders from '../../hooks/saveHeader';
-
-type FormData = {
-  lastName: string;
-  firstName: string;
-  age: number;
-  gender: string;
-  email: string;
-  password: string;
-};
+import { FormData } from "../../types/types";
 
 const SignUpForm = () => {
   const navigate = useNavigate();

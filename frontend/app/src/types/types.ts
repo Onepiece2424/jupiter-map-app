@@ -18,9 +18,13 @@ export type User = {
 };
 
 export type FormData = {
+  lastName: string;
+  firstName: string;
+  age: number;
+  gender: string;
   email: string;
   password: string;
-}
+};
 
 export type GoogleMapsProps = {
   lat: number;
@@ -32,4 +36,13 @@ export type MapProps = google.maps.MapOptions & {
   style?: React.CSSProperties;
   children?: React.ReactNode;
   onClick?: (e: google.maps.MapMouseEvent) => void; // クリックイベントを追加
+};
+
+export type CustomMarkerOptions = google.maps.MarkerOptions & {
+  position: {
+    id: number;
+    lat: number;
+    lng: number;
+    place_name: string;
+  };
 };
