@@ -18,9 +18,13 @@ export type User = {
 };
 
 export type FormData = {
+  lastName: string;
+  firstName: string;
+  age: number;
+  gender: string;
   email: string;
   password: string;
-}
+};
 
 export type GoogleMapsProps = {
   lat: number;
