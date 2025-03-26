@@ -37,3 +37,12 @@ export type MapProps = google.maps.MapOptions & {
   children?: React.ReactNode;
   onClick?: (e: google.maps.MapMouseEvent) => void; // クリックイベントを追加
 };
+
+export type CustomMarkerOptions = google.maps.MarkerOptions & {
+  position: {
+    id: number;
+    lat: number;
+    lng: number;
+    place_name: string;
+  };
+};

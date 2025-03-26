@@ -1,15 +1,7 @@
 import { useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
 import PlaceContent from "./PlaceContent";
-
-type CustomMarkerOptions = google.maps.MarkerOptions & {
-  position: {
-    id: number;
-    lat: number;
-    lng: number;
-    place_name: string;
-  };
-};
+import { CustomMarkerOptions } from "../types/types";
 
 const FavoriteMarkers = (options: CustomMarkerOptions) => {
   const infoWindowRef = useRef<HTMLDivElement | null>(null);
