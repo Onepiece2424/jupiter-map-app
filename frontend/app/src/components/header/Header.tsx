@@ -27,7 +27,13 @@ const Header = () => {
   }, [])
 
   const logout = async () => {
-    await axios.delete('http://localhost:3000/auth/sign_out', { headers });
+    const headersWithAuth = {
+      'access-token': localStorage.getItem('access-token'),
+      'client': localStorage.getItem('client'),
+      'uid': localStorage.getItem('uid')
+    };
+
+    await axios.delete('http://localhost:3000/auth/sign_out', { headers: headersWithAuth });
     navigate('/login');
     localStorage.removeItem('access-token');
     localStorage.removeItem('client');
