@@ -32,6 +32,9 @@ const Header = () => {
     localStorage.removeItem('access-token');
     localStorage.removeItem('client');
     localStorage.removeItem('uid');
+
+    // ヘッダーのログインユーザー名の削除
+    setLoginUser(null)
   };
 
   return (
