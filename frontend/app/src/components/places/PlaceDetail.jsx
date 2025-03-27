@@ -26,29 +26,63 @@ const PlaceDetail = () => {
   }, [id]);
 
   if (place == null) {
-      return <></>;
+    return <></>;
   }
 
   return (
-    <>
-      <ContentWrapper>
+    <Container>
+      <Card>
         <PlaceImg url={place?.image_url ? place.image_url : NoImage} />
-        <PlaceDescription
-          placeName={place?.place_name}
-          postcode={place?.postcode}
-          description={place?.description}
-        />
-      </ContentWrapper>
-      <Button onClick={() => navigate(`/favorite_places/${id}/edit`)} variant="contained">編集</Button>
-    </>
+        <InfoWrapper>
+          <PlaceDescription
+            placeName={place?.place_name}
+            postcode={place?.postcode}
+            description={place?.description}
+          />
+          <StyledButton onClick={() => navigate(`/favorite_places/${id}/edit`)} variant="contained">
+            編集
+          </StyledButton>
+        </InfoWrapper>
+      </Card>
+    </Container>
   )
 }
 
-const ContentWrapper = styled.div`
-  width: 100%;
-  margin: 0 auto;
+const Container = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
+  padding: 20px;
+`
+
+const Card = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  max-width: 600px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 20px;
+`
+
+const InfoWrapper = styled.div`
+  width: 100%;
+  text-align: center;
+  margin-top: 16px;
+`
+
+const StyledButton = styled(Button)`
+  && {
+    margin-top: 20px;
+    background-color: #1976d2;
+    color: white;
+    &:hover {
+      background-color: #1565c0;
+    }
+  }
 `
 
 export default PlaceDetail
