@@ -1,36 +1,32 @@
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { FormData } from '../../types/types';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../../constants';
-import saveAuthHeaders from '../../hooks/saveHeader';
+import { loginUserState } from '../../atoms/user';
+import { useRecoilState } from 'recoil';
 import styled from "styled-components"
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
   const [error, setError] = useState<string | null>(null);
+  const [, setLoginUser] = useRecoilState(loginUserState);
 
   const onSubmit = async (data: FormData) => {
     const { email, password } = data;
     try {
-      const response = await axios.post(`${API_BASE_URL}auth/sign_in`, {
-        email,
-        password,
-      });
+      const response = await axios.post(`${API_BASE_URL}auth/sign_in`,
+        { email, password },
+        { withCredentials: true });
 
-      saveAuthHeaders(response.headers);
+      setLoginUser(response.data.user)
       navigate('/');
     } catch (err) {
       setError('ログインに失敗しました')
     }
   };
-
-  useEffect(() => {
-    localStorage.getItem('access-token') && navigate('/'); // ログイン状態の時、トップへ
-  }, [navigate])
 
   return (
     <StyledContainer>

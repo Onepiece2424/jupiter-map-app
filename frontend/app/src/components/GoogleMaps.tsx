@@ -6,7 +6,6 @@ import { favoritePlacesState } from '../atoms/marker';
 import Maps from './Maps';
 import Marker from './Marker';
 import LocationSearchForm from './LocationSearchForm';
-import { headers } from '../api/client';
 import { GoogleMapsProps } from '../types/types';
 import FavoriteMarkers from './FavoriteMarkers';
 import { API_BASE_URL, GOOGLE_MAP_API_KEY } from '../constants';
@@ -33,16 +32,14 @@ const GoogleMaps = () => {
   useEffect(() => {
     const fetchFavoritePlaces = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}favorite_places`, { headers });
+        const response = await axios.get(`${API_BASE_URL}favorite_places`, { withCredentials: true });
         setFavoritePlaces(response.data);
       } catch (error) {
         console.error('Error fetching favorite places:', error);
       }
     };
 
-    if (headers.uid) {
-       fetchFavoritePlaces(); // fetchFavoritePlaces関数を呼び出す
-    }
+    fetchFavoritePlaces()
   }, [setFavoritePlaces]);
 
   return (

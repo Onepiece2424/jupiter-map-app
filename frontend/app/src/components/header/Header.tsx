@@ -1,46 +1,35 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-import useAuthRedirect from '../../hooks/login/logout';
-import { headers } from '../../api/client';
 import { Button } from '@mui/material';
 import { API_BASE_URL } from '../../constants';
-import { User } from '../../types/types';
+import { loginUserState } from '../../atoms/user';
+import { useRecoilState } from 'recoil';
 
 const Header = () => {
   const navigate = useNavigate();
-  const [loginUser, setLoginUser] = useState<User | null>(null);
-  useAuthRedirect(); // ログアウト状態の時、トップへリダイレクトする
+  const [loginUser, setLoginUser] = useRecoilState(loginUserState);
 
   useEffect(() => {
     const fetchLoginUser = async() => {
       try {
-        const response = await axios.get(`${API_BASE_URL}users/me`, { headers });
-        setLoginUser(response.data);
+        const response = await axios.get(`${API_BASE_URL}users/me`, { withCredentials: true });
+        setLoginUser(response.data.user);
       } catch (error) {
         console.error('Error fetching User Data:', error);
       }
     }
 
     fetchLoginUser();
-  }, [])
+  }, [setLoginUser])
 
   const logout = async () => {
-    const headersWithAuth = {
-      'access-token': localStorage.getItem('access-token'),
-      'client': localStorage.getItem('client'),
-      'uid': localStorage.getItem('uid')
-    };
-
-    await axios.delete('http://localhost:3000/auth/sign_out', { headers: headersWithAuth });
+    await axios.delete('http://localhost:3000/auth/sign_out', { withCredentials: true });
     navigate('/login');
-    localStorage.removeItem('access-token');
-    localStorage.removeItem('client');
-    localStorage.removeItem('uid');
 
     // ヘッダーのログインユーザー名の削除
-    setLoginUser(null)
+    setLoginUser({ id: null, lastname: "", firstname: "", signed_in: false })
   };
 
   return (
@@ -49,8 +38,8 @@ const Header = () => {
         <h1>Jupiter Map</h1>
       </TextLinkWrapper>
       <UserInfo>
-        {loginUser && <span>ようこそ、{loginUser?.lastname} {loginUser?.firstname} さん</span>}
-        {localStorage.getItem("access-token") &&
+        {loginUser.signed_in && <span>ようこそ、{loginUser?.lastname} {loginUser?.firstname} さん</span>}
+        {loginUser.signed_in &&
           <Button variant="outlined" className="logout-button" onClick={logout}>ログアウト</Button>}
       </UserInfo>
     </HeaderWrapper>
