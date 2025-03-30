@@ -1,10 +1,9 @@
 import axios from "axios"
 import { API_BASE_URL } from "../constants";
-import { headers } from "./client"
 
 export const fetchFavoritePlaceDetail = async(id: number) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}favorite_places/${id}`, { headers });
+    const response = await axios.get(`${API_BASE_URL}favorite_places/${id}`, { withCredentials: true });
     return response.data;
   } catch (error) {
     console.error("Error fetching place detail:", error);
@@ -25,11 +24,6 @@ export const updateFavoritePlaceDetail = async (id: number, data: any) => {
   await axios.put(
     `${API_BASE_URL}favorite_places/${id}`,
     formData,
-    {
-      headers: {
-        ...headers, // devise-token-auth の認証ヘッダーを追加
-        "Content-Type": "multipart/form-data",
-      },
-    }
+    { withCredentials: true }
   );
 };
