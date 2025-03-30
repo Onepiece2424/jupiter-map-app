@@ -24,7 +24,7 @@ const InfoWindow = ({ position, address, onClose }: InfoWindowProps) => {
           postcode: postcode,
           city: city
         },
-        { headers }
+        { withCredentials: true }
       );
       onClose()
     } catch (error) {

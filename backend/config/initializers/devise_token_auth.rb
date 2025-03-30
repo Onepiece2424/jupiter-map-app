@@ -5,6 +5,8 @@ DeviseTokenAuth.setup do |config|
   # client is responsible for keeping track of the changing tokens. Change
   # this to false to prevent the Authorization header from changing after
   # each request.
+
+  # トークンが毎回更新されないようにする（Cookie管理のため）
   config.change_headers_on_each_request = false
 
   # By default, users will need to re-authenticate after 2 weeks. This setting
@@ -63,4 +65,7 @@ DeviseTokenAuth.setup do |config|
   # devise confirmable module. If you want to use devise confirmable module and
   # send email, set it to true. (This is a setting for compatibility)
   # config.send_confirmation_email = true
+
+  # Cookie の設定
+  config.cookie_enabled = true
 end

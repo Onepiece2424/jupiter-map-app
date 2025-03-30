@@ -12,9 +12,10 @@ export interface InfoWindowProps {
 }
 
 export type User = {
-  id: number;
+  id: any;
   firstname: string;
   lastname: string;
+  signed_in: boolean;
 };
 
 export type FormData = {

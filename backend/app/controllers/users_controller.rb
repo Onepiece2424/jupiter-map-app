@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   end
 
   def me
-    render json: @user
+    render json: { user: @user.as_json.merge(signed_in: user_signed_in?) }
   end
 
   private

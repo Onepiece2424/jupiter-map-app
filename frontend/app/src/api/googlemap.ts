@@ -4,7 +4,8 @@ import { headers } from "./client";
 
 export const googleMapFetchAddress = async (lat: number, lng: number): Promise<Address | undefined> => {
   try {
-    const response = await axios.get(`http://localhost:3000/reverse_geocode?lat=${lat}&lng=${lng}`, { headers });
+    const response = await axios.get(`http://localhost:3000/reverse_geocode?lat=${lat}&lng=${lng}`,
+      { withCredentials: true });
     return response.data.address as Address; // サーバーが Address オブジェクトを返すことを期待
   } catch (error) {
     console.error("Error fetching location data:", error);
