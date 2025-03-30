@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { loginUserState } from '../../atoms/user';
+import { useRecoilState } from 'recoil';
 
 // ログイン不要なページのリスト
 export const publicPaths = ["/sign_up", "/login"];
@@ -7,12 +9,13 @@ export const publicPaths = ["/sign_up", "/login"];
 const useAuthRedirect = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [loginUser,] = useRecoilState(loginUserState);
 
   useEffect(() => {
-    if (!localStorage.getItem("access-token") && !publicPaths.includes(location.pathname)) {
+    if (!loginUser.signed_in && !publicPaths.includes(location.pathname)) {
       navigate("/login");
     }
-  }, [navigate, location.pathname]);
+  }, [navigate, loginUser.signed_in, location.pathname]);
 
 };
 
