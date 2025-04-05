@@ -4,11 +4,7 @@ import { useRecoilState } from 'recoil';
 import { API_BASE_URL } from "../../constants";
 import axios from "axios";
 import { authState } from "../../atoms/auth";
-
-type AuthContextType = {
-  isAuthenticated: boolean;
-  isLoading: boolean;
-};
+import { AuthContextType } from "../../types/types";
 
 const AuthContext = createContext<AuthContextType | null>(null);
 

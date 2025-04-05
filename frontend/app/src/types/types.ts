@@ -47,3 +47,8 @@ export type CustomMarkerOptions = google.maps.MarkerOptions & {
     place_name: string;
   };
 };
+
+export type AuthContextType = {
+  isAuthenticated: boolean;
+  isLoading: boolean;
+};
