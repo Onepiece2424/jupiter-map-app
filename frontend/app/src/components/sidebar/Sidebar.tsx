@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const SidebarContainer = styled.div`
@@ -68,22 +69,41 @@ const Label = styled.span`
   }
 `;
 
+const StyledLink = styled(Link)`
+  display: flex; /* Linkをflexアイテムとして表示 */
+  align-items: center;
+  text-decoration: none; /* デフォルトの下線を削除 */
+  color: inherit; /* 親の色を継承 */
+`;
+
 const Sidebar = () => {
   return (
     <SidebarContainer>
       <SidebarTitle>Menu</SidebarTitle>
       <MenuList>
         <MenuItem>
-          <Bullet />
-          <Label>Home</Label>
+          <StyledLink to="/">
+            <Bullet />
+            <Label>Home</Label>
+          </StyledLink>
         </MenuItem>
         <MenuItem>
-          <Bullet />
-          <Label>Profile</Label>
+          <StyledLink to="/profile">
+            <Bullet />
+            <Label>Profile</Label>
+          </StyledLink>
         </MenuItem>
         <MenuItem>
-          <Bullet />
-          <Label>Settings</Label>
+          <StyledLink to="/friends">
+            <Bullet />
+            <Label>Friends list</Label>
+          </StyledLink>
+        </MenuItem>
+        <MenuItem>
+          <StyledLink to="/settings">
+            <Bullet />
+            <Label>Settings</Label>
+          </StyledLink>
         </MenuItem>
       </MenuList>
     </SidebarContainer>
