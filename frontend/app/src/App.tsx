@@ -1,14 +1,16 @@
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
+import { AuthProvider } from './components/auth/AuthProvider';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/header/Header';
 import GoogleMaps from './components/GoogleMaps';
 import LoginForm from './components/auth/LoginForm';
 import SignUpForm from './components/auth/SignUpForm';
 import PlaceDetail from './components/places/PlaceDetail';
 import PlaceEdit from './components/places/PlaceEdit';
-import { AuthProvider } from './components/auth/AuthProvider';
+import FriendsList from './components/friends/FriendsList';
 import PrivateRoute from './components/auth/PrivateRoute';
+
 
 function App() {
   return (
@@ -24,6 +26,7 @@ function App() {
                 <Route path="/" element={<GoogleMaps />} />
                 <Route path="/favorite_places/:id" element={<PlaceDetail />} />
                 <Route path="/favorite_places/:id/edit" element={<PlaceEdit />} />
+                <Route path="/friends" element={<FriendsList />} />
               </Route>
             </Routes>
           </div>
