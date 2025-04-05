@@ -1,8 +1,11 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "./AuthProvider";
+import { useRecoilValue } from "recoil";
+import { authState } from "../../atoms/auth";
 
 const PrivateRoute = () => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isLoading } = useAuth();
+  const isAuthenticated = useRecoilValue(authState);
 
   if (isLoading) {
     return null; // 認証状態が確定するまで何も表示しない（またはローディングUIを表示）

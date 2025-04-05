@@ -18,10 +18,10 @@ function App() {
           <div className="App">
             <Header />
             <Routes>
-              <Route path="/" element={<GoogleMaps />} />
               <Route path="/login" element={<LoginForm />} />
               <Route path="/sign_up" element={<SignUpForm />} />
               <Route element={<PrivateRoute />}>
+                <Route path="/" element={<GoogleMaps />} />
                 <Route path="/favorite_places/:id" element={<PlaceDetail />} />
                 <Route path="/favorite_places/:id/edit" element={<PlaceEdit />} />
               </Route>
