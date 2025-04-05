@@ -4,13 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Select, MenuItem, InputLabel, FormControl, Container, Paper, Typography, Stack } from "@mui/material";
 import axios from 'axios';
 import { API_BASE_URL } from '../../constants';
-import saveAuthHeaders from '../../hooks/saveHeader';
 import { FormData } from "../../types/types";
+import { loginUserState } from '../../atoms/user';
+import { useRecoilState } from 'recoil';
 
 const SignUpForm = () => {
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
   const [message, setMessage] = useState("");
+  const [, setLoginUser] = useRecoilState(loginUserState);
 
   const resisterNewUser = async (data: FormData) => {
     const params = {
@@ -22,8 +24,8 @@ const SignUpForm = () => {
       password: data.password
     }
     try {
-      const response = await axios.post(`${API_BASE_URL}auth`, params);
-      saveAuthHeaders(response.headers);
+      const response = await axios.post(`${API_BASE_URL}auth`, params, { withCredentials: true });
+      setLoginUser(response.data.user)
       navigate('/');
     } catch (err) {
       setMessage('ログインに失敗しました')
