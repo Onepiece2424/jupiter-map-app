@@ -52,3 +52,12 @@ export type AuthContextType = {
   isAuthenticated: boolean;
   isLoading: boolean;
 };
+
+export type FriendType = {
+  id: number;
+  firstname: string;
+  lastname: string;
+  age: number;
+  gender: string;
+  email: string;
+}
