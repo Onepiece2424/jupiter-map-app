@@ -21,6 +21,11 @@ const FriendRequest = () => {
     fetchFriends();
   }, [setSuggestionsUsers]);
 
+  const handleRequest = async(user: any) => {
+    const params = { user: user }
+    await axios.post(`${API_BASE_URL}friend_requests`, params, { withCredentials: true });
+  }
+
   return (
     <Container>
       <Title>友達申請</Title>
@@ -34,7 +39,7 @@ const FriendRequest = () => {
               <UserDetails>性別: {user.gender}</UserDetails>
               <UserDetails>Eメール: {user.email}</UserDetails>
             </UserInfo>
-            <ActionButton>申請する</ActionButton>
+            <ActionButton onClick={() => handleRequest(user)}>申請する</ActionButton>
           </UserCard>
         ))}
       </UserList>
