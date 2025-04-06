@@ -4,7 +4,12 @@ Rails.application.routes.draw do
     sessions: 'users/sessions'
   }
   resources :users, only: [:index] do
-    get 'me', on: :collection
+    collection do
+      get 'me'
+      get 'suggestions'
+    end
+    # get 'me', on: :collection
+    # get 'suggestions', on: :collection
   end
   resources :favorite_places
   resources :friends, only: [:index]
