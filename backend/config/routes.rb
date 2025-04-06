@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     collection do
       get 'me'
       get 'suggestions'
+      get 'notifications'
     end
   end
   resources :favorite_places

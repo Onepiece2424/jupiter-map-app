@@ -17,6 +17,12 @@ class UsersController < ApplicationController
     render json: friends_candidates
   end
 
+  def notifications
+    sender_ids = current_user.received_friend_requests.pluck(:sender_id)
+    @users = User.where(id: sender_ids)
+    render json: @users
+  end
+
   private
 
   def set_users
