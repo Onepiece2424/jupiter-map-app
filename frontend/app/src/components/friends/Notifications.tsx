@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
-import axios from 'axios';
-import { API_BASE_URL } from '../../constants';
-import { useRecoilState } from 'recoil';
-import { notificationsUsersListState } from '../../atoms/notificationsUsers';
-import styled from 'styled-components';
+import { useEffect } from "react";
+import axios from "axios";
+import { API_BASE_URL } from "../../constants";
+import { useRecoilState } from "recoil";
+import { notificationsUsersListState } from "../../atoms/notificationsUsers";
+import styled from "styled-components";
 
 const Notifications = () => {
   const [notificationsUsers, setNotificationsUsers] = useRecoilState(notificationsUsersListState);
@@ -14,27 +14,29 @@ const Notifications = () => {
         const response = await axios.get(`${API_BASE_URL}users/notifications`, { withCredentials: true });
         setNotificationsUsers(response.data);
       } catch (error) {
-        console.log('申請通知を取得できませんでした');
+        console.log("申請通知を取得できませんでした");
       }
     };
 
     fetchNotificationsUsers();
   }, [setNotificationsUsers]);
 
-  const approveRequest = async(user: any) => {
-    const params = { user: user}
+  const approveRequest = async (user: any) => {
+    const params = { user: user };
     await axios.post(`${API_BASE_URL}friendships`, params, { withCredentials: true });
-  }
+  };
 
-  const rejectRequest = async(user: any) => {
-    const params = { user: user }
+  const rejectRequest = async (user: any) => {
+    const params = { user: user };
     await axios.put(`${API_BASE_URL}friend_requests/reject`, params, { withCredentials: true });
-  }
+  };
 
   return (
     <Container>
-      <Title>友達通知</Title>
-      <NotificationList>
+      <Header>
+        <Title>友達通知</Title>
+      </Header>
+      <ListContainer>
         {notificationsUsers.length > 0 ? (
           notificationsUsers.map((user) => (
             <NotificationCard key={user.id}>
@@ -54,7 +56,7 @@ const Notifications = () => {
         ) : (
           <NoNotifications>通知はありません</NoNotifications>
         )}
-      </NotificationList>
+      </ListContainer>
     </Container>
   );
 };
@@ -70,12 +72,18 @@ const Container = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
-const Title = styled.h2`
-  text-align: center;
-  margin-bottom: 20px;
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
 `;
 
-const NotificationList = styled.div`
+const Title = styled.h2`
+  margin: 0;
+`;
+
+const ListContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -144,4 +152,5 @@ const NoNotifications = styled.p`
   text-align: center;
   color: #888;
   font-size: 16px;
+  padding: 20px 0;
 `;
