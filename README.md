@@ -16,6 +16,15 @@ https://github.com/user-attachments/assets/7e245aef-174e-42f6-8264-9899d9ae7102
 
 <img width="722" alt="スクリーンショット 2024-09-26 11 36 53" src="https://github.com/user-attachments/assets/73b85283-88d5-40a9-8ddc-0d3751441a67">
 
+<br>
+③友達一覧、申請、通知機能
+
+友達申請し、承認したユーザーを友達とみなし、一覧ページに表示させるようにしました。
+また、友達申請もできるようにしました。
+さらに、他のユーザーから申請が来たら、申請内容を友達通知として、確認できるようにしました。
+
+https://github.com/user-attachments/assets/a87a42bc-45c4-49de-9110-46fcd503018f
+
 
 ### 使用技術
 
@@ -23,8 +32,11 @@ ruby 3.1.3
 
 rails 7.0.8
 
-typscript 4.9.5
+Typscript 4.9.5
 
+Docker
+
+Github Actions（rspec,rubocop）
 
 ### メモ
 Google Mapsでドラッグ可能なピンと情報ウィンドウを表示する方法
