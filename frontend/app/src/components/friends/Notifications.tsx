@@ -21,6 +21,16 @@ const Notifications = () => {
     fetchNotificationsUsers();
   }, [setNotificationsUsers]);
 
+  const approveRequest = async(user: any) => {
+    const params = { user: user}
+    await axios.post(`${API_BASE_URL}friendships`, params, { withCredentials: true });
+  }
+
+  const rejectRequest = async(user: any) => {
+    const params = { user: user }
+    await axios.put(`${API_BASE_URL}friend_requests/reject`, params, { withCredentials: true });
+  }
+
   return (
     <Container>
       <Title>友達通知</Title>
@@ -36,8 +46,8 @@ const Notifications = () => {
                 <UserDetails>Eメール: {user.email}</UserDetails>
               </UserInfo>
               <ButtonGroup>
-                <ApproveButton>承認</ApproveButton>
-                <RejectButton>却下</RejectButton>
+                <ApproveButton onClick={() => approveRequest(user)}>承認</ApproveButton>
+                <RejectButton onClick={() => rejectRequest(user)}>却下</RejectButton>
               </ButtonGroup>
             </NotificationCard>
           ))
