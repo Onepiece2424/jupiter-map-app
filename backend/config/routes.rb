@@ -8,11 +8,10 @@ Rails.application.routes.draw do
       get 'me'
       get 'suggestions'
     end
-    # get 'me', on: :collection
-    # get 'suggestions', on: :collection
   end
   resources :favorite_places
   resources :friends, only: [:index]
+  resources :friend_requests, only: [:create]
   get 'search_location', to: 'google_maps#search_location'
   get 'reverse_geocode', to: 'google_maps#reverse_geocode'
 end
