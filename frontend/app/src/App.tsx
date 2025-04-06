@@ -9,6 +9,7 @@ import SignUpForm from './components/auth/SignUpForm';
 import PlaceDetail from './components/places/PlaceDetail';
 import PlaceEdit from './components/places/PlaceEdit';
 import FriendsList from './components/friends/FriendsList';
+import FriendRequest from './components/friends/FriendRequest';
 import PrivateRoute from './components/auth/PrivateRoute';
 
 
@@ -27,6 +28,7 @@ function App() {
                 <Route path="/favorite_places/:id" element={<PlaceDetail />} />
                 <Route path="/favorite_places/:id/edit" element={<PlaceEdit />} />
                 <Route path="/friends" element={<FriendsList />} />
+                <Route path="/frineds/requests" element={<FriendRequest />} />
               </Route>
             </Routes>
           </div>

@@ -27,7 +27,7 @@ const FriendsList = () => {
     <>
       <TitleCotainer>
         <strong>友達一覧</strong>
-        <FriendRequestLink to='/frined/requests'>友達申請</FriendRequestLink>
+        <FriendRequestLink to='/frineds/requests'>友達申請</FriendRequestLink>
       </TitleCotainer>
       <ListContainer>
         {friends.map((friend) => (

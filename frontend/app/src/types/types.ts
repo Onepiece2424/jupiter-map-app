@@ -61,3 +61,12 @@ export type FriendType = {
   gender: string;
   email: string;
 }
+
+export type SuggestionsUsersType = {
+  id: number;
+  firstname: string;
+  lastname: string;
+  age: number;
+  gender: string;
+  email: string;
+}
