@@ -38,7 +38,7 @@ const Header = () => {
         <h1>Jupiter Map</h1>
       </TextLinkWrapper>
       <UserInfo>
-        {loginUser?.signed_in && <span>ようこそ、{loginUser?.lastname} {loginUser?.firstname} さん</span>}
+        {loginUser?.signed_in && <span>ようこそ、{loginUser?.firstname} {loginUser?.lastname} さん</span>}
         {loginUser?.signed_in &&
           <Button variant="outlined" className="logout-button" onClick={logout}>ログアウト</Button>}
       </UserInfo>

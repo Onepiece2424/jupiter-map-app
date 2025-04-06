@@ -16,8 +16,8 @@ const SignUpForm = () => {
 
   const resisterNewUser = async (data: FormData) => {
     const params = {
-      lastname: data.lastName,
       firstname: data.firstName,
+      lastname: data.lastName,
       age: data.age,
       gender: data.gender, // 後でenumなどを使用し、性別管理を数値でできるようにしてから修正予定
       email: data.email,
@@ -42,16 +42,16 @@ const SignUpForm = () => {
           <Stack spacing={2}>
             <TextField
               label="姓"
-              {...register("lastName", { required: "姓を入力してください" })}
-              error={!!errors.lastName}
-              helperText={errors.lastName?.message}
+              {...register("firstName", { required: "姓を入力してください" })}
+              error={!!errors.firstName}
+              helperText={errors.firstName?.message}
               fullWidth
             />
             <TextField
               label="名"
-              {...register("firstName", { required: "名を入力してください" })}
-              error={!!errors.firstName}
-              helperText={errors.firstName?.message}
+              {...register("lastName", { required: "名を入力してください" })}
+              error={!!errors.lastName}
+              helperText={errors.lastName?.message}
               fullWidth
             />
             <TextField
