@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_users, only: [:me, :suggestions]
+  before_action :set_users, only: [:me]
 
   def index
     @users = User.all
@@ -12,7 +12,8 @@ class UsersController < ApplicationController
   end
 
   def suggestions
-    friends_candidates = User.where.not(id: @user.id)
+    sent_request_ids = current_user.sent_friend_requests.pluck(:receiver_id)
+    friends_candidates = User.where.not(id: sent_request_ids + [current_user.id])
     render json: friends_candidates
   end
 
