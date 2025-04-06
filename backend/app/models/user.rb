@@ -22,6 +22,6 @@ class User < ApplicationRecord
   enum gender: { male: 1, female: 2, other: 3 }
 
   def all_friends
-    (friends + inverse_friends).uniq { |friend| friend.id }
+    (friends + inverse_friends).uniq(&:id)
   end
 end
