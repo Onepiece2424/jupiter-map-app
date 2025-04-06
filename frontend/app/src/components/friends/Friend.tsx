@@ -22,7 +22,6 @@ const Friend = ({ friend }: FriendProps) => {
 
 export default Friend
 
-// Styled Components
 const Card = styled.div`
   background: #fff;
   border-radius: 12px;
