@@ -18,7 +18,7 @@ class UsersController < ApplicationController
   end
 
   def notifications
-    sender_ids = current_user.received_friend_requests.pluck(:sender_id)
+    sender_ids = current_user.received_friend_requests.where(status: "pending").pluck(:sender_id)
     @users = User.where(id: sender_ids)
     render json: @users
   end
