@@ -70,3 +70,12 @@ export type SuggestionsUsersType = {
   gender: string;
   email: string;
 }
+
+export type UsersType = {
+  id: number;
+  firstname: string;
+  lastname: string;
+  age: number;
+  gender: string;
+  email: string;
+}
