@@ -27,7 +27,9 @@ const FriendsList = () => {
     <>
       <TitleCotainer>
         <strong>友達一覧</strong>
-        <FriendRequestLink to='/frineds/requests'>友達申請</FriendRequestLink>
+        <LinkContainer>
+          <FriendRequestLink to='/friends/requests'>友達申請</FriendRequestLink>
+        </LinkContainer>
       </TitleCotainer>
       <ListContainer>
         {friends.map((friend) => (
@@ -41,16 +43,38 @@ const FriendsList = () => {
 export default FriendsList
 
 const TitleCotainer = styled.div`
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 8px 0;
+  position: relative;
+`
+
+const LinkContainer = styled.div`
+  position: absolute;
+  right: 0;
+  display: flex;
+  gap: 12px;
+`
+
+const FriendNotificationLink = styled(Link)`
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `
 
 const FriendRequestLink = styled(Link)`
-  position: absolute;
-  right: 0;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `
 
 const ListContainer = styled.div`

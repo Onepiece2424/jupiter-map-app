@@ -28,7 +28,7 @@ function App() {
                 <Route path="/favorite_places/:id" element={<PlaceDetail />} />
                 <Route path="/favorite_places/:id/edit" element={<PlaceEdit />} />
                 <Route path="/friends" element={<FriendsList />} />
-                <Route path="/frineds/requests" element={<FriendRequest />} />
+                <Route path="/friends/requests" element={<FriendRequest />} />
               </Route>
             </Routes>
           </div>
