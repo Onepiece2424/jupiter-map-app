@@ -4,6 +4,7 @@ import { API_BASE_URL } from "../../constants";
 import { useRecoilState } from "recoil";
 import { notificationsUsersListState } from "../../atoms/notificationsUsers";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Notifications = () => {
   const [notificationsUsers, setNotificationsUsers] = useRecoilState(notificationsUsersListState);
@@ -22,12 +23,12 @@ const Notifications = () => {
   }, [setNotificationsUsers]);
 
   const approveRequest = async (user: any) => {
-    const params = { user: user };
+    const params = { user };
     await axios.post(`${API_BASE_URL}friendships`, params, { withCredentials: true });
   };
 
   const rejectRequest = async (user: any) => {
-    const params = { user: user };
+    const params = { user };
     await axios.put(`${API_BASE_URL}friend_requests/reject`, params, { withCredentials: true });
   };
 
@@ -35,8 +36,11 @@ const Notifications = () => {
     <Container>
       <Header>
         <Title>友達通知</Title>
+        <LinkContainer>
+          <StyledLink to="/friends">友達一覧</StyledLink>
+        </LinkContainer>
       </Header>
-      <ListContainer>
+      <NotificationList>
         {notificationsUsers.length > 0 ? (
           notificationsUsers.map((user) => (
             <NotificationCard key={user.id}>
@@ -56,7 +60,7 @@ const Notifications = () => {
         ) : (
           <NoNotifications>通知はありません</NoNotifications>
         )}
-      </ListContainer>
+      </NotificationList>
     </Container>
   );
 };
@@ -83,7 +87,22 @@ const Title = styled.h2`
   margin: 0;
 `;
 
-const ListContainer = styled.div`
+const LinkContainer = styled.div`
+  display: flex;
+  gap: 12px;
+`;
+
+const StyledLink = styled(Link)`
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const NotificationList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -152,5 +171,4 @@ const NoNotifications = styled.p`
   text-align: center;
   color: #888;
   font-size: 16px;
-  padding: 20px 0;
 `;

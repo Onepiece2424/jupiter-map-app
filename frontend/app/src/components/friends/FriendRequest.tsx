@@ -4,6 +4,7 @@ import { suggestionsUsersListState } from '../../atoms/suggestionsUsers';
 import { API_BASE_URL } from '../../constants';
 import axios from 'axios';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const FriendRequest = () => {
   const [suggestionsUsers, setSuggestionsUsers] = useRecoilState(suggestionsUsersListState);
@@ -21,14 +22,17 @@ const FriendRequest = () => {
     fetchFriends();
   }, [setSuggestionsUsers]);
 
-  const handleRequest = async(user: any) => {
-    const params = { user: user }
+  const handleRequest = async (user: any) => {
+    const params = { user: user };
     await axios.post(`${API_BASE_URL}friend_requests`, params, { withCredentials: true });
-  }
+  };
 
   return (
     <Container>
-      <Title>友達申請</Title>
+      <TitleContainer>
+        <Title>友達申請</Title>
+        <FriendsListLink to="/friends">友達一覧</FriendsListLink>
+      </TitleContainer>
       <UserList>
         {suggestionsUsers.map((user) => (
           <UserCard key={user.id}>
@@ -58,9 +62,27 @@ const Container = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
-const Title = styled.h2`
-  text-align: center;
+const TitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
+`;
+
+const Title = styled.h2`
+  margin: 0;
+`;
+
+const FriendsListLink = styled(Link)`
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+
+  &:hover {
+    color: #0056b3;
+    text-decoration: underline;
+  }
 `;
 
 const UserList = styled.div`
