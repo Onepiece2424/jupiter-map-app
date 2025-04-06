@@ -22,7 +22,7 @@ const Header = () => {
     }
 
     fetchLoginUser();
-  }, [loginUser, setLoginUser])
+  }, [setLoginUser])
 
   const logout = async () => {
     await axios.delete('http://localhost:3000/auth/sign_out', { withCredentials: true });
