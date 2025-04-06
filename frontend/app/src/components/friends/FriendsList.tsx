@@ -28,6 +28,7 @@ const FriendsList = () => {
       <TitleCotainer>
         <strong>友達一覧</strong>
         <LinkContainer>
+          <FriendNotificationLink to='/friends/notifications'>友達通知</FriendNotificationLink>
           <FriendRequestLink to='/friends/requests'>友達申請</FriendRequestLink>
         </LinkContainer>
       </TitleCotainer>

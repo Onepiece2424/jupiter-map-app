@@ -11,7 +11,7 @@ import PlaceEdit from './components/places/PlaceEdit';
 import FriendsList from './components/friends/FriendsList';
 import FriendRequest from './components/friends/FriendRequest';
 import PrivateRoute from './components/auth/PrivateRoute';
-
+import Notifications from './components/friends/Notifications';
 
 function App() {
   return (
@@ -29,6 +29,7 @@ function App() {
                 <Route path="/favorite_places/:id/edit" element={<PlaceEdit />} />
                 <Route path="/friends" element={<FriendsList />} />
                 <Route path="/friends/requests" element={<FriendRequest />} />
+                <Route path="/friends/notifications" element={<Notifications />} />
               </Route>
             </Routes>
           </div>
