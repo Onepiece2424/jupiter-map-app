@@ -6,6 +6,7 @@ import axios from 'axios';
 import { API_BASE_URL } from '../../constants';
 import { loginUserState } from '../../atoms/user';
 import { useRecoilState } from 'recoil';
+import { authState } from '../../atoms/auth';
 import styled from "styled-components"
 
 const LoginForm = () => {
@@ -13,6 +14,7 @@ const LoginForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
   const [error, setError] = useState<string | null>(null);
   const [, setLoginUser] = useRecoilState(loginUserState);
+  const [, setIsAuthenticated] = useRecoilState(authState);
 
   const onSubmit = async (data: FormData) => {
     const { email, password } = data;
@@ -22,6 +24,7 @@ const LoginForm = () => {
         { withCredentials: true });
 
       setLoginUser(response.data.user)
+      setIsAuthenticated(true);
       navigate('/');
     } catch (err) {
       setError('ログインに失敗しました')

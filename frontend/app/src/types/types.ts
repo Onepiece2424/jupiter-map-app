@@ -47,3 +47,35 @@ export type CustomMarkerOptions = google.maps.MarkerOptions & {
     place_name: string;
   };
 };
+
+export type AuthContextType = {
+  isAuthenticated: boolean;
+  isLoading: boolean;
+};
+
+export type FriendType = {
+  id: number;
+  firstname: string;
+  lastname: string;
+  age: number;
+  gender: string;
+  email: string;
+}
+
+export type SuggestionsUsersType = {
+  id: number;
+  firstname: string;
+  lastname: string;
+  age: number;
+  gender: string;
+  email: string;
+}
+
+export type UsersType = {
+  id: number;
+  firstname: string;
+  lastname: string;
+  age: number;
+  gender: string;
+  email: string;
+}

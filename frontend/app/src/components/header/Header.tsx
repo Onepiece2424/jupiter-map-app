@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { API_BASE_URL } from '../../constants';
 import { loginUserState } from '../../atoms/user';
@@ -34,12 +34,12 @@ const Header = () => {
 
   return (
     <HeaderWrapper>
-      <TextLinkWrapper to="/">
+      <TextLinkWrapper>
         <h1>Jupiter Map</h1>
       </TextLinkWrapper>
       <UserInfo>
-        {loginUser.signed_in && <span>ようこそ、{loginUser?.lastname} {loginUser?.firstname} さん</span>}
-        {loginUser.signed_in &&
+        {loginUser?.signed_in && <span>ようこそ、{loginUser?.firstname} {loginUser?.lastname} さん</span>}
+        {loginUser?.signed_in &&
           <Button variant="outlined" className="logout-button" onClick={logout}>ログアウト</Button>}
       </UserInfo>
     </HeaderWrapper>
@@ -55,7 +55,7 @@ const HeaderWrapper = styled.header`
   color: white;
 `;
 
-const TextLinkWrapper = styled(Link)`
+const TextLinkWrapper = styled.div`
   text-decoration: none;
   color: white;
 `;

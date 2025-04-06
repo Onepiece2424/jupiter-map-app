@@ -4,26 +4,28 @@ import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Select, MenuItem, InputLabel, FormControl, Container, Paper, Typography, Stack } from "@mui/material";
 import axios from 'axios';
 import { API_BASE_URL } from '../../constants';
-import saveAuthHeaders from '../../hooks/saveHeader';
 import { FormData } from "../../types/types";
+import { loginUserState } from '../../atoms/user';
+import { useRecoilState } from 'recoil';
 
 const SignUpForm = () => {
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
   const [message, setMessage] = useState("");
+  const [, setLoginUser] = useRecoilState(loginUserState);
 
   const resisterNewUser = async (data: FormData) => {
     const params = {
-      lastname: data.lastName,
       firstname: data.firstName,
+      lastname: data.lastName,
       age: data.age,
       gender: data.gender, // 後でenumなどを使用し、性別管理を数値でできるようにしてから修正予定
       email: data.email,
       password: data.password
     }
     try {
-      const response = await axios.post(`${API_BASE_URL}auth`, params);
-      saveAuthHeaders(response.headers);
+      const response = await axios.post(`${API_BASE_URL}auth`, params, { withCredentials: true });
+      setLoginUser(response.data.user)
       navigate('/');
     } catch (err) {
       setMessage('ログインに失敗しました')
@@ -40,16 +42,16 @@ const SignUpForm = () => {
           <Stack spacing={2}>
             <TextField
               label="姓"
-              {...register("lastName", { required: "姓を入力してください" })}
-              error={!!errors.lastName}
-              helperText={errors.lastName?.message}
+              {...register("firstName", { required: "姓を入力してください" })}
+              error={!!errors.firstName}
+              helperText={errors.firstName?.message}
               fullWidth
             />
             <TextField
               label="名"
-              {...register("firstName", { required: "名を入力してください" })}
-              error={!!errors.firstName}
-              helperText={errors.firstName?.message}
+              {...register("lastName", { required: "名を入力してください" })}
+              error={!!errors.lastName}
+              helperText={errors.lastName?.message}
               fullWidth
             />
             <TextField
